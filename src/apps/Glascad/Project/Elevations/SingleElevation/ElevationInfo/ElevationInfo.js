@@ -56,13 +56,22 @@ export default function ElevationInfo({
         } = {},
     } = recursiveElevation;
 
+    
     const doNotConfirm = _.isEqual(elevationInput, {});
-
+    
     const save = useSaveOnCtrlS(async () => {
+        const {
+            _systemSet,
+            _systemSet: {
+                id: systemSetId,
+            } = {},
+            ...saveElevationInput
+        } = elevationInput;
 
         if (!doNotConfirm) {
             const elevation = {
-                ...elevationInput,
+                ...saveElevationInput,
+                systemSetId, 
                 id: +parseSearch(search).elevationId,
             };
 

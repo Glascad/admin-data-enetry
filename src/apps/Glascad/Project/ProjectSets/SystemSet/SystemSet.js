@@ -57,9 +57,6 @@ export default function SystemSet({
     const ssqr = useApolloQuery(query, { variables: { systemSetId: +systemSetId || 0 } });
     const {
         _systemSet = {},
-        raw: {
-            refetch: fetchSystemSet,
-        } = {}
     } = ssqr;
     const systemSetQueryResult = {
         ...ssqr,
@@ -103,13 +100,13 @@ export default function SystemSet({
         } = {},
     } = qr;
 
-    const systemQueryResult = _systemSet.id === sampleSystemSet.id ?
-        {
-            ...qr,
-            _system: _sampleSystem || _system,
-        }
-        :
-        qr;
+    // const systemQueryResult = _systemSet.id === sampleSystemSet.id ?
+    //     {
+    //         ...qr,
+    //         _system: _sampleSystem || _system,
+    //     }
+    //     :
+    //     qr;
 
 
 

@@ -2,7 +2,7 @@ describe(`Data Entry can create, delete and interact with manufacturer cards`, (
 
     beforeEach(() => {
         cy.login();
-        cy.visit(`https://localhost:3000/data-entry/main-menu/manufacturers`);
+        cy.visit(`http://localhost:3000/data-entry/main-menu/manufacturers`);
     });
 
     const generatedManufacturer = Math.floor(Math.random() * 10000);

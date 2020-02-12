@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React, { memo, useCallback, useMemo } from 'react';
 import { GroupingBox, Input, useApolloMutation, useInitialState, useRedoableState, useSaveOnCtrlS } from '../../../../../../components';
 import F from '../../../../../../schemas';
-import { parseSearch } from '../../../../../../utils';
+import { parseSearch, removeNullishValues } from '../../../../../../utils';
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 import generatePreview from '../../ElevationPreview/generate-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
@@ -41,6 +41,11 @@ const saveDefaultMutation = gql`
     `;
 
 export default memo(function CreateElevation({
+    queryResult: {
+        __raw: {
+            loading,
+        } = {},
+    },
     history,
     location: {
         search,
@@ -197,8 +202,12 @@ export default memo(function CreateElevation({
     }, [mergedElevation]));
 
     // console.log("this is the CREATE elevation page");
+    const comparativeInput = removeNullishValues({ ...elevationInput, systemSetId: undefined })
 
-    const doNotConfirm = areEqual(defaultElevation, elevationInput);
+    const doNotConfirm = defaultElevation ?
+        areEqual(removeNullishValues(defaultElevation), comparativeInput)
+        :
+        _.isEqual(removeNullishValues(defaultElevationInput), comparativeInput);
 
     return (
         <>
@@ -217,6 +226,7 @@ export default memo(function CreateElevation({
                 <ElevationId
                     {...{
                         name,
+                        loading,
                         _systemSets,
                         systemSetId,
                         updateElevation,
