@@ -112,8 +112,6 @@ export default function System({
         if (parseSearch(search).systemId === 'null') history.push(`${pathname}${parseSearch(search).remove('systemId')}`);
     }), []);
 
-    console.log({ qr });
-
     const queryResult = {
         ...qr,
         _system: _sampleSystem || _system,

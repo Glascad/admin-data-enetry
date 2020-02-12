@@ -38,7 +38,7 @@ BEGIN
 
             FOREACH <<ALIAS>> IN ARRAY ss.<<TYPE>>s LOOP
 
-                SELECT 1 FROM create_or_update_or_delete_system_set_<<TYPE>>(<<ALIAS>>, uss) INTO ___;
+                SELECT 1 FROM delete_and_create_system_set<<TYPE>>(<<ALIAS>>, uss) INTO ___;
 
             END LOOP;
 

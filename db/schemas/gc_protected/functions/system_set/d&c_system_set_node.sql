@@ -4,7 +4,7 @@
     PARENT (system, detail)
 >>
 
-    CREATE OR REPLACE FUNCTION gc_data.create_or_update_or_delete_system_set_<<TYPE>>(
+    CREATE OR REPLACE FUNCTION gc_data.delete_and_create_system_set<<TYPE>>(
         system_set_<<TYPE>> ENTIRE_SYSTEM_SET_<<TYPE>>,
         system_set SYSTEM_SETS
     ) RETURNS SYSTEM_SET_<<TYPE>>S AS $$
