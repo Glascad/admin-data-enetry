@@ -29,7 +29,7 @@ export default function ElevationSearch({
         refetchQueries: () => [{
             query,
             variables: {
-                id: +parseSearch(window.location.search).projectId,
+                id: parseSearch(window.location.search).projectId,
             },
         }],
     });
@@ -38,7 +38,7 @@ export default function ElevationSearch({
         refetchQueries: () => [{
             query,
             variables: {
-                id: +parseSearch(window.location.search).projectId,
+                id: parseSearch(window.location.search).projectId,
             },
         }],
     });
@@ -99,9 +99,7 @@ export default function ElevationSearch({
                                         },
                                     } = await copyElevation({
                                         elevationId: id,
-                                        newName: name.replace(/ \(\d+\)?$/, (match, ...args) => {
-                                            console.log([match, ...args]);
-                                        }),
+                                        newName: name.replace(/( \((\d+)\))?$/, (match, group, num) => ` (${(+num || 0) + 1})`),
                                     });
 
 

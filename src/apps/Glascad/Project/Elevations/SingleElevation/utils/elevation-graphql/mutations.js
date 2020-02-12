@@ -67,7 +67,7 @@ export const updateEntireElevationOptions = {
     }) => [{
         query: projectQuery,
         variables: {
-            id: +parseSearch(window.location.search).projectId,
+            id: parseSearch(window.location.search).projectId,
         },
     }, {
         query,

@@ -44,7 +44,7 @@ System.navigationOptions = ({
                     }
                 `,
                 variables: {
-                    id: +parseSearch(search).systemId,
+                    id: parseSearch(search).systemId,
                 },
                 fetchPolicy: "no-cache",
             }}
@@ -62,13 +62,13 @@ System.navigationOptions = ({
             }) => {
                 const { systemId, manufacturerId: mnfgId } = parseSearch(search);
                 return (
-                    loading ?
-                        <Ellipsis />
+                    systemId === 'null' ?
+                        "New System"
                         :
-                        systemId === 'null' ?
-                            "New System"
+                        loading ?
+                            <Ellipsis />
                             :
-                            `${manufacturerId}` === mnfgId ?
+                            manufacturerId === mnfgId ?
                                 normalCase(name)
                                 :
                                 <Redirect
@@ -81,6 +81,7 @@ System.navigationOptions = ({
 });
 
 export default function System({
+    history,
     location: {
         search,
     },
@@ -106,7 +107,10 @@ export default function System({
         refetch();
     }, [systemId]);
 
-    console.log({ qr });
+    useEffect(() => () => setTimeout(() => {
+        const { location: { search, pathname } } = window;
+        if (parseSearch(search).systemId === 'null') history.push(`${pathname}${parseSearch(search).remove('systemId')}`);
+    }), []);
 
     const queryResult = {
         ...qr,

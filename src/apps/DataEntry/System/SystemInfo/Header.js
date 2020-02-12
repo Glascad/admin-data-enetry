@@ -1,20 +1,9 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import { AsyncButton, ConfirmButton, Ellipsis, TitleBar } from '../../../../components';
-import { parseSearch } from '../../../../utils';
+import { parseSearch, removeNullishValues } from '../../../../utils';
 
 function Header({
-    location: {
-        search,
-        state: {
-            previousPath = '/data-entry/manufacturer/system-search',
-            previousSearch,
-        } = {},
-    },
-    match: {
-        path,
-    },
-    history,
     system: {
         name,
         _manufacturer: {
@@ -31,6 +20,16 @@ function Header({
 }) {
 
     console.log(systemInput);
+
+    const history = useHistory();
+    const { path } = useRouteMatch();
+    const {
+        search,
+        state: {
+            previousPath = '/data-entry/manufacturer/system-search',
+            previousSearch,
+        } = {},
+    } = removeNullishValues(useLocation());
 
     const { systemId, manufacturerId } = parseSearch(search);
 
@@ -72,7 +71,7 @@ function Header({
                             const {
                                 updateEntireSystem: {
                                     system: {
-                                        id = +systemId,
+                                        id = systemId,
                                     } = {},
                                 } = {},
                             } = hasChanges ? await save() : {};

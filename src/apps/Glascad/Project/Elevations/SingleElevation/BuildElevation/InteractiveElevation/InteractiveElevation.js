@@ -84,11 +84,11 @@ const InteractiveElevation = ({
         ))
         .case(id && (
             (
-                id === +elevationId
+                id === elevationId
             ) || (
                 id === (SAMPLE_ELEVATIONS[sampleElevation] || {}).id
             ) || (
-                +bugId === +elevationBugId
+                bugId === elevationBugId
             )
         ), () => (
             <TransformBox

@@ -24,7 +24,7 @@ Project.navigationOptions = ({
             query={{
                 query,
                 variables: {
-                    id: +parseSearch(search).projectId,
+                    id: parseSearch(search).projectId,
                 },
             }}
         >
@@ -53,7 +53,7 @@ export default function Project({
         query,
         {
             variables: {
-                id: +parseSearch(search).projectId,
+                id: parseSearch(search).projectId,
             },
         });
 

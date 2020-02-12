@@ -33,7 +33,7 @@ Manufacturer.navigationOptions = ({
                     }
                 `,
                 variables: {
-                    id: +parseSearch(search).manufacturerId,
+                    id: parseSearch(search).manufacturerId,
                 },
             }}
         >
@@ -73,7 +73,7 @@ export default function Manufacturer({
         query,
         {
             variables: {
-                id: +manufacturerId,
+                id: manufacturerId,
             },
             // fetchPolicy: "network-only",
         });

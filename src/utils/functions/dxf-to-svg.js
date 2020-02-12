@@ -1,18 +1,8 @@
 import _ from 'lodash';
+import getColorFromColorCode from './get-color-from-color-code';
 import match from './match';
 import replace from './replace';
-import {
-    sin,
-    asin,
-    cos,
-    acos,
-    atan,
-    radians,
-    degrees,
-    rotatePoint,
-    transformPoint,
-} from './trig';
-import getColorFromColorCode from './get-color-from-color-code';
+import { acos, atan, cos, degrees, rotatePoint, sin, transformPoint } from './trig';
 
 export default dxf => {
 

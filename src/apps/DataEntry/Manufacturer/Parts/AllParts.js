@@ -54,7 +54,7 @@ export default function AllParts({
         query,
         {
             variables: {
-                id: +manufacturerId,
+                id: manufacturerId,
             },
             fetchPolicy: shouldRefetch ? "no-cache" : "cache-first",
         });

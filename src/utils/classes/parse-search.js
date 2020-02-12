@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import pipe from '../functions/pipe';
 
 /**
  * parseSearch converts the search string from the url into an object for easy use
@@ -13,14 +14,25 @@ import _ from 'lodash';
 
 const parseSearch = search => search.replace(/^.*?\?/, "")
     .split(/[?&]/)
+    .filter(pair => (
+        pair.replace(/^.*?=/, "")
+        &&
+        pair.replace(/=.*/, "")
+    ))
     .reduce((parsedSearch, pair) => ({
         ...parsedSearch,
-        [pair.replace(/=.*/, "")]: pair.replace(/^.*?=/, ""),
+        [pair.replace(/=.*/, "")]: pipe(
+            pair.replace(/^.*?=/, ""),
+            val => `${+val}` === `${val}` ?
+                +val
+                :
+                val,
+        ),
     }), {});
 
 const joinSearch = searchObject => Object
     .entries(searchObject)
-    .filter(([_, value]) => value !== undefined)
+    .filter(([key, value]) => key && value !== undefined)
     .reduce((search, [key, value], i) => `${
         search
         }${
@@ -35,30 +47,29 @@ const joinSearch = searchObject => Object
         }`, '');
 
 class Search {
-    constructor(search) {
+    constructor(searchString) {
 
-        if (typeof search === 'string') {
-            this.search = search;
-            this.parsedSearch = parseSearch(search);
-        } else {
-            this.parsedSearch = search;
-            this.search = joinSearch(search);
-        }
+        if (typeof searchString !== 'string') return new Search(joinSearch(searchString));
 
-        Object.assign(this, this.parsedSearch);
+        this.__parsedSearch = parseSearch(searchString);
+        this.__search = joinSearch(this.__parsedSearch);
+
+        Object.assign(this, this.__parsedSearch);
+
+        console.log(this);
     }
 
     update = searchObject => new Search({
-        ...this.parsedSearch,
+        ...this.__parsedSearch,
         ...searchObject,
     });
 
     remove = (...keys) => keys.reduce((search, key) => new Search({
         ...search,
         [key]: undefined,
-    }), this.parsedSearch);
+    }), this.__parsedSearch);
 
-    toString = () => this.search;
+    toString = () => this.__search;
 }
 
 export default _.memoize(search => new Search(search));

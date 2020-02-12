@@ -6,7 +6,7 @@ const DE = 'DataEntry';
 const GC = 'Glascad';
 
 const rolePermissions = {
-    GC_ADMIN: [DE, GC],
+    GC_ADMIN: [GC, DE],
     GC_DATA_ENTRY: [DE],
     GC_CLIENT: [GC],
     unauthenticated: [

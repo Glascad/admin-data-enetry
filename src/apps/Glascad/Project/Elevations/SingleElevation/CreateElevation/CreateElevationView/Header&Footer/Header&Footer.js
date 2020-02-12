@@ -3,16 +3,20 @@ import { TitleBar, AsyncButton } from '../../../../../../../../components';
 import CancelButton from './CancelButton';
 import CreateButton from './CreateButton';
 
-export function Header({
+export default function HeaderAndFooter({
+    children,
     elevationInput,
     elevationInput: {
         name,
     },
     doNotConfirm,
-    creating,
     save,
+    creating,
+    saveDefault,
+    savingDefault,
 }) {
-    return (
+
+    const HEADER = (
         <TitleBar
             // data-cy="new-elevation"
             title="New Elevation"
@@ -31,17 +35,8 @@ export function Header({
             )}
         />
     );
-}
 
-export function Footer({
-    doNotConfirm,
-    saveDefault,
-    savingDefault,
-    elevationInput,
-    creating,
-    save,
-}) {
-    return (
+    const FOOTER = (
         <div className="bottom-buttons">
             <CancelButton
                 doNotConfirm={doNotConfirm}
@@ -68,4 +63,6 @@ export function Footer({
             </div>
         </div>
     );
+
+    return children({ HEADER, FOOTER });
 }

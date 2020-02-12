@@ -9,7 +9,7 @@ import generatePreview from '../../ElevationPreview/generate-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import AddHorizontals from './CreateElevationView/AddHorizontals/AddHorizontals';
 import ElevationId from './CreateElevationView/ElevationId/ElevationId';
-import { Footer, Header } from './CreateElevationView/Header&Footer/Header&Footer';
+import HeaderAndFooter, { Footer, Header } from './CreateElevationView/Header&Footer/Header&Footer';
 import RoughOpening from './CreateElevationView/RoughOpening/RoughOpening';
 import { defaultElevationInput, measureFromOptions, measureToOptions } from './utils/elevation-input';
 import generateElevation from './utils/generate-elevation';
@@ -211,94 +211,93 @@ export default memo(function CreateElevation({
 
     return (
         <>
-            <Header
+            <HeaderAndFooter
                 {...{
                     elevationInput,
                     doNotConfirm,
-                    creating,
                     save,
+                    creating,
+                    saveDefault,
+                    savingDefault,
                 }}
-            />
-            <div
-                id="CreateElevation"
-                className="card"
             >
-                <ElevationId
-                    {...{
-                        name,
-                        loading,
-                        _systemSets,
-                        systemSetId,
-                        updateElevation,
-                    }}
-                />
-                <RoughOpening
-                    {...{
-                        horizontalRoughOpening,
-                        horizontalMasonryOpening,
-                        verticalRoughOpening,
-                        recursiveElevation,
-                        horizontals,
-                        verticalMasonryOpening,
-                        updateElevation,
-                        startingBayQuantity,
-                        initialElevationInput,
-                    }}
-                />
-                <Input
-                    data-cy="starting-bay"
-                    label="Starting bay quantity"
-                    type="number"
-                    min={1}
-                    max={100}
-                    value={startingBayQuantity || ''}
-                    onChange={({ target: { value } }) => updateElevation({
-                        startingBayQuantity: Math.round(Math.min(
-                            +value < 0 ? 0 : + value,
-                            (
-                                horizontalRoughOpening - recursiveElevation.sightline
-                            ) / (
-                                5 + recursiveElevation.sightline
-                            )
-                        )),
-                    })}
-                />
-                <Input
-                    data-cy="curb-height"
-                    label="Curb Height"
-                    type="inches"
-                    min={0}
-                    initialValue={initialFinishedFloorHeight}
-                    onChange={finishedFloorHeight => updateElevation({ finishedFloorHeight })}
-                    onBlur={setInitialFinishedFloorHeight}
-                />
-                <AddHorizontals
-                    horizontals={horizontals}
-                    measureFromOptions={measureFromOptions}
-                    measureToOptions={measureToOptions}
-                    updateElevation={updateElevation}
-                    recursiveElevation={recursiveElevation}
-                    verticalRoughOpening={verticalRoughOpening}
-                />
-                <GroupingBox
-                    title="Preview"
-                >
-                    <ElevationPreview
-                        data-cy="preview"
-                        recursiveElevation={recursiveElevation}
-                    />
-                </GroupingBox>
-                <Footer
-                    {...{
-                        doNotConfirm,
-                        saveDefault,
-                        savingDefault,
-                        elevationInput,
-                        creating,
-                        save,
-                    }}
-                />
-            </div>
+                {({ HEADER, FOOTER }) => (
+                    <>
+                        {HEADER}
+                        <div
+                            id="CreateElevation"
+                            className="card"
+                        >
+                            <ElevationId
+                                {...{
+                                    name,
+                                    loading,
+                                    _systemSets,
+                                    systemSetId,
+                                    updateElevation,
+                                }}
+                            />
+                            <RoughOpening
+                                {...{
+                                    horizontalRoughOpening,
+                                    horizontalMasonryOpening,
+                                    verticalRoughOpening,
+                                    recursiveElevation,
+                                    horizontals,
+                                    verticalMasonryOpening,
+                                    updateElevation,
+                                    startingBayQuantity,
+                                    initialElevationInput,
+                                }}
+                            />
+                            <Input
+                                data-cy="starting-bay"
+                                label="Starting bay quantity"
+                                type="number"
+                                min={1}
+                                max={100}
+                                value={startingBayQuantity || ''}
+                                onChange={({ target: { value } }) => updateElevation({
+                                    startingBayQuantity: Math.round(Math.min(
+                                        +value < 0 ? 0 : + value,
+                                        (
+                                            horizontalRoughOpening - recursiveElevation.sightline
+                                        ) / (
+                                            5 + recursiveElevation.sightline
+                                        )
+                                    )),
+                                })}
+                            />
+                            <Input
+                                data-cy="curb-height"
+                                label="Curb Height"
+                                type="inches"
+                                min={0}
+                                initialValue={initialFinishedFloorHeight}
+                                onChange={finishedFloorHeight => updateElevation({ finishedFloorHeight })}
+                                onBlur={setInitialFinishedFloorHeight}
+                            />
+                            <AddHorizontals
+                                horizontals={horizontals}
+                                measureFromOptions={measureFromOptions}
+                                measureToOptions={measureToOptions}
+                                updateElevation={updateElevation}
+                                recursiveElevation={recursiveElevation}
+                                verticalRoughOpening={verticalRoughOpening}
+                            />
+                            <GroupingBox
+                                title="Preview"
+                            >
+                                <ElevationPreview
+                                    data-cy="preview"
+                                    recursiveElevation={recursiveElevation}
+                                />
+                            </GroupingBox>
+                            {FOOTER}
+                        </div>
+                    </>
+                )}
+            </HeaderAndFooter>
         </>
     );
 });
