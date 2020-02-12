@@ -16,11 +16,12 @@ const query = gql`query partsByManufacturer($id: Int!) {
     }
 }${F.MNFG.PART_FIELDS}`;
 
-const mutation = gql`mutation DeletePart($nodeId: ID!){
-    deletePart(input: {
-        nodeId: $nodeId
+const mutation = gql`mutation DeletePartById($id: Int!){
+    deletePartById(input: {
+        id: $id
     }) {
         part {
+            id,
             nodeId,
             partNumber,
         }
@@ -61,6 +62,7 @@ export default function AllParts({
     const {
         allParts = [],
         __raw: {
+            refetch,
             loading: fetching,
         }
     } = queryResult;
@@ -95,7 +97,9 @@ export default function AllParts({
                     ]}
                 />
                 <ListWrapper
+                    identifier='id'
                     items={allParts.map(({ partNumber, paths, id }) => ({
+                        id,
                         dataCy: partNumber,
                         title: partNumber,
                         type: "tile",
@@ -127,7 +131,10 @@ export default function AllParts({
                                 ),
                             }],
                     }))}
-                    onDelete={item => console.log({ item })}
+                    onDelete={async ({ arguments: { id } }) => {
+                        await deletePart({ id })
+                        refetch()
+                    }}
                     deleteModal={{
                         name: "Part",
                     }}
