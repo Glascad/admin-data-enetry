@@ -41,7 +41,7 @@ export default function SVG({
     const [selectedPathIndex, selectPath] = useState();
     const extremeValues = getPartExtremities({ paths });
     const viewBox = svg.getViewBox(extremeValues);
-    console.log({ viewBox, extremeValues, paths });
+    // console.log({ viewBox, extremeValues, paths });
     return (
         <svg
             className={className}
