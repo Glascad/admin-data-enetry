@@ -1,10 +1,10 @@
+import gql from 'graphql-tag';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TitleBar, useQuery, SVG, ListWrapper, Ellipsis } from '../../../../components';
-import './Parts.scss';
+import { Ellipsis, ListWrapper, SVG, TitleBar, useApolloQuery, useApolloMutation } from '../../../../components';
 import F from '../../../../schemas';
-import gql from 'graphql-tag';
 import { parseSearch } from '../../../../utils';
+import './Parts.scss';
 
 const query = gql`query partsByManufacturer($id: Int!) {
     allParts(condition: {
@@ -14,9 +14,19 @@ const query = gql`query partsByManufacturer($id: Int!) {
             ...PartFields
         }
     }
-}
-${F.MNFG.PART_FIELDS}
-`;
+}${F.MNFG.PART_FIELDS}`;
+
+const mutation = gql`mutation DeletePartById($id: Int!){
+    deletePartById(input: {
+        id: $id
+    }) {
+        part {
+            id,
+            nodeId,
+            partNumber,
+        }
+    }
+}`;
 
 AllParts.navigationOptions = {
     path: '/all',
@@ -40,15 +50,25 @@ export default function AllParts({
 }) {
     console.log(arguments[0]);
     const { manufacturerId } = parseSearch(search);
-    const [fetchQuery, queryResult, fetching] = useQuery({
+    const queryResult = useApolloQuery(
         query,
-        variables: {
-            id: +manufacturerId,
-        },
-        fetchPolicy: shouldRefetch ? "no-cache" : "cache-first",
-    });
+        {
+            variables: {
+                id: +manufacturerId,
+            },
+            fetchPolicy: shouldRefetch ? "no-cache" : "cache-first",
+        });
     console.log({ queryResult });
-    const { allParts = [] } = queryResult;
+    const {
+        allParts = [],
+        __raw: {
+            refetch,
+            loading: fetching,
+        }
+    } = queryResult;
+
+    const [deletePart] = useApolloMutation(mutation);
+
     return (
         <>
             <div
@@ -77,7 +97,10 @@ export default function AllParts({
                     ]}
                 />
                 <ListWrapper
+                    identifier='id'
                     items={allParts.map(({ partNumber, paths, id }) => ({
+                        id,
+                        dataCy: partNumber,
                         title: partNumber,
                         type: "tile",
                         align: "left",
@@ -100,16 +123,21 @@ export default function AllParts({
                             {
                                 children: (
                                     <Link
+                                        data-cy={`${partNumber}-info`}
                                         to={`${path.replace(/all/, 'info')}${parseSearch(search).update({ partId: id })}`}
                                     >
                                         Info
                                 </Link>
                                 ),
-                            }, {
-                                text: "Delete",
-                                className: "danger",
                             }],
                     }))}
+                    onDelete={async ({ arguments: { id } }) => {
+                        await deletePart({ id })
+                        refetch()
+                    }}
+                    deleteModal={{
+                        name: "Part",
+                    }}
                     circleButton={{
                         type: "tile",
                         className: "primary",

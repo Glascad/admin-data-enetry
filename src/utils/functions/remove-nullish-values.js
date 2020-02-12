@@ -5,7 +5,7 @@
  * Recursively searches through the object, protecting against circular structures using the `prev` array.
  */
 
-const removeNullishValues = (obj = {}, prev = []) => (obj === null ?
+const removeNullishValues = (obj, prev = []) => (obj === null ?
     undefined
     :
     typeof obj !== 'object' || prev.includes(obj) ?
@@ -27,4 +27,4 @@ const removeNullishValues = (obj = {}, prev = []) => (obj === null ?
                 }, {})
 );
 
-export default removeNullishValues;
+export default (obj = {}) => removeNullishValues(obj);

@@ -1,8 +1,6 @@
 
-import sampleSystem from './sample-system.json';
-
 function systemOptionValueTree(systemOptionValue, system) {
-    
+
 }
 
 function systemOptionTree(systemOption, system) {

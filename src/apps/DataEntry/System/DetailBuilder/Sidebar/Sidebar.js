@@ -22,7 +22,7 @@ export default withRouter(memo(function DetailBuilderSidebar({
     const detailType = getDetailTypeFromPath(path);
     const configurationType = getConfigurationTypeFromPath(path);
 
-    const { Viewport, sidebar: { open } } = useContext(StaticContext);
+    const { viewportRef, sidebar: { open } } = useContext(StaticContext);
 
     const ref = useRef();
 
@@ -32,7 +32,7 @@ export default withRouter(memo(function DetailBuilderSidebar({
 
         setTimeout(() => {
             try {
-                previousWidth = Viewport.current.style.width;
+                previousWidth = viewportRef.current.style.width;
                 previousBoxShadow = ref.current.style.boxShadow;
             } catch (err) {
                 console.error(err);
@@ -41,10 +41,10 @@ export default withRouter(memo(function DetailBuilderSidebar({
 
         const resizeViewport = () => setTimeout(() => {
             try {
-                Viewport.current.style.width = `${
+                viewportRef.current.style.width = `${
                     ref.current.offsetLeft
                     -
-                    Viewport.current.offsetLeft
+                    viewportRef.current.offsetLeft
                     }px`;
                 ref.current.style.boxShadow = 'none';
             } catch (err) {
@@ -58,14 +58,14 @@ export default withRouter(memo(function DetailBuilderSidebar({
 
         return () => setTimeout(() => {
             try {
-                Viewport.current.style.width = previousWidth;
+                viewportRef.current.style.width = previousWidth;
                 ref.current.style.boxShadow = previousBoxShadow;
             } catch (err) {
                 console.error(err);
             }
             window.removeEventListener('resize', resizeViewport);
         });
-    }, [Viewport, open]);
+    }, [viewportRef, open]);
 
     return (
         <RightSidebar

@@ -9,6 +9,16 @@ gc_controlled.system_type AS ENUM (
 COMMENT ON TYPE gc_controlled.system_type IS '@name _systemType';
 
 CREATE TYPE
+gc_controlled.elevation_contents AS ENUM (
+    'GLASS',
+    'VOID_STEPPED_HEAD',
+    'VOID_RAISED_CURB',
+    'VOID_LEFT_NOTCH',
+    'VOID_RIGHT_NOTCH',
+    'VOID_INTERNAL'
+);
+
+CREATE TYPE
 gc_controlled.detail_type AS ENUM (
     'HEAD',
     'JAMB',
