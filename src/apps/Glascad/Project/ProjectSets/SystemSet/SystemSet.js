@@ -1,14 +1,15 @@
 import gql from 'graphql-tag';
 import React, { useEffect } from 'react';
 import { getDefaultOptionGroupValue, getDefaultPath, SystemMap } from '../../../../../app-logic/system';
-import { AsyncButton, ConfirmButton, TitleBar, useApolloMutation, useApolloQuery, useLazyApolloQuery, useRedoableState, useSaveOnCtrlS } from '../../../../../components';
+import { useApolloMutation, useApolloQuery, useLazyApolloQuery, useRedoableState, useSaveOnCtrlS } from '../../../../../components';
 import F from '../../../../../schemas';
-import { parseSearch } from '../../../../../utils';
+import { asyncPipe, asyncTap, parseSearch } from '../../../../../utils';
 import Details from './Details/Details';
 import { SELECT_OPTION_GROUP_VALUE, SELECT_SYSTEM_OPTION_VALUE } from './ducks/actions';
 import merge from './ducks/merge';
 import { defaultSystemSetUpdate } from './ducks/schemas';
 import SAMPLE_SYSTEM_SETS from './ducks/__test__/sample-query-results';
+import HeaderAndFooter from './Header&Footer/Header&Footer';
 import SystemOptions from './SystemOptions/SystemOptions';
 import './SystemSet.scss';
 import SystemSetInfo from './SystemSetInfo/SystemSetInfo';
@@ -41,12 +42,8 @@ export default function SystemSet({
     location: {
         search,
     },
-    match: {
-        path,
-    },
     fetchProject,
     fetchingProject,
-    history,
 }) {
 
     const { systemSetId, sampleSystemSet = {}, projectId } = parseSearch(search);
@@ -90,7 +87,7 @@ export default function SystemSet({
         }
         ${F.MNFG.ENTIRE_SYSTEM}
     `);
-    
+
     const {
         _system = {},
         _system: {
@@ -172,120 +169,69 @@ export default function SystemSet({
         } = {},
     } = allSystems.find(({ id }) => id === systemId) || {};
 
-    const save = useSaveOnCtrlS(async () => {
-
-        const payload = {
+    const save = useSaveOnCtrlS(async () => asyncPipe(
+        {
             ...systemSetUpdate,
             projectId: +projectId,
             id: +systemSetId,
-        };
-
-        console.log({
-            systemSet,
-            systemSetUpdate,
-            payload,
-        });
-
-        const result = await updateSystemSet({ systemSet: payload });
-
-        console.log({ result });
-
-        try {
-            const {
-                updateEntireSystemSet: {
-                    systemSet: {
-                        id,
-                        projectId,
-                    },
-                },
-            } = result;
-            console.log({ id });
-
-            const projectResult = await fetchProject({ id: projectId }, { fetchPolicy: "no-cache" });
-
-            console.log({ projectResult });
-
-            history.push(`${path.replace(/system-set.*/, 'all')}${parseSearch(search).update({ systemSetId: id })}`);
-
-        } catch (err) {
-            console.error(err);
-        }
-
-    });
-
-    // console.log({ systemSet });
+        },
+        // asyncTap(systemSetPayload => console.log({ systemSetPayload })),
+        systemSet => updateSystemSet({ systemSet }),
+        // asyncTap(result => console.log({ result })),
+        asyncTap(({ updateEntireSystemSet: { systemSet: { projectId } } }) => fetchProject({
+            id: projectId
+        }, {
+            fetchPolicy: "network-first",
+        })),
+        // asyncTap(result => console.log({ result })),
+    ).catch(err => console.error(err)));
 
     return (
-        <>
-            <TitleBar
-                title={`${systemSetId ? '' : 'New '}System Set`}
-                snailTrail={[name]}
-                right={(
-                    <>
-                        <ConfirmButton
-                            doNotConfirmWhen={true}
-                            onClick={() => history.push(`${path.replace(/system.set/, 'all')}${search}`)}
-                        >
-                            Close
-                        </ConfirmButton>
-                        <AsyncButton
-                            onClick={save}
-                            className="action"
-                            loadingText="Saving"
-                            loading={updating || fetchingProject}
-                        >
-                            Save
-                        </AsyncButton>
-                    </>
-                )}
-            />
-            <div className="card">
-                {/* SYSTEM INFO */}
-                <SystemSetInfo
-                    {...{
-                        systemName,
-                        allSystems,
-                        dispatch,
-                        manufacturerName,
-                        systemType,
-                        name,
-                    }}
-                />
-                <SystemOptions
-                    {...{
-                        systemOptionValuePath,
-                        systemMap,
-                        dispatch,
-                        _systemSetOptionGroupValues,
-                    }}
-                />
-                <Details
-                    {...{
-                        _systemSetDetails,
-                        _systemSetConfigurations,
-                        _detailConfigurations,
-                        _optionGroups,
-                        dispatch,
-                        systemMap,
-                    }}
-                />
-                <div className="bottom-buttons">
-                    <ConfirmButton
-                        doNotConfirmWhen={true}
-                        onClick={() => history.push(`${path.replace(/system.set/, 'all')}${search}`)}
-                    >
-                        Close
-                    </ConfirmButton>
-                    <AsyncButton
-                        onClick={save}
-                        className="action"
-                        loadingText="Saving"
-                        loading={updating || fetchingProject}
-                    >
-                        Save
-                    </AsyncButton>
-                </div>
-            </div>
-        </>
+        <HeaderAndFooter
+            {...{
+                save,
+                updating,
+                fetchingProject,
+                systemSetName: name,
+            }}
+        >
+            {({ HEADER, FOOTER }) => (
+                <>
+                    {HEADER}
+                    <div className="card">
+                        {/* SYSTEM INFO */}
+                        <SystemSetInfo
+                            {...{
+                                systemName,
+                                allSystems,
+                                dispatch,
+                                manufacturerName,
+                                systemType,
+                                name,
+                            }}
+                        />
+                        <SystemOptions
+                            {...{
+                                systemOptionValuePath,
+                                systemMap,
+                                dispatch,
+                                _systemSetOptionGroupValues,
+                            }}
+                        />
+                        <Details
+                            {...{
+                                _systemSetDetails,
+                                _systemSetConfigurations,
+                                _detailConfigurations,
+                                _optionGroups,
+                                dispatch,
+                                systemMap,
+                            }}
+                        />
+                        {FOOTER}
+                    </div>
+                </>
+            )}
+        </HeaderAndFooter>
     );
 };
