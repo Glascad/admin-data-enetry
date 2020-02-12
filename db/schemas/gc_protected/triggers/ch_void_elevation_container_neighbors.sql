@@ -59,6 +59,6 @@ $$ LANGUAGE plpgsql;
 
 CREATE CONSTRAINT TRIGGER check_void_elevation_container_neighbors
 AFTER INSERT OR UPDATE OF contents ON elevation_containers
--- INITIALLY DEFERRED
+INITIALLY DEFERRED
 FOR EACH ROW WHEN (NEW.contents::TEXT ~ 'VOID')
 EXECUTE FUNCTION check_void_elevation_container_neighbors();

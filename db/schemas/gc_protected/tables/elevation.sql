@@ -88,7 +88,8 @@ gc_protected.container_details (
         elevation_id,
         id,
         vertical
-    ),
+    )
+    INITIALLY DEFERRED,
     CONSTRAINT detail_references_at_least_one_container CHECK (
         first_container_id IS NOT NULL
         OR
