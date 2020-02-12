@@ -32,7 +32,7 @@ export default function PartInfo({
 }) {
     console.log(arguments[0]);
     const { partId } = parseSearch(search);
-    const queryResult = useApolloQuery(query, { variables: { id: +partId } });
+    const queryResult = useApolloQuery(query, { variables: { id: partId } });
     console.log({ queryResult });
     const {
         _part: {

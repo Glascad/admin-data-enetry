@@ -29,7 +29,7 @@ export default function ElevationSearch({
         refetchQueries: () => [{
             query,
             variables: {
-                id: +parseSearch(window.location.search).projectId,
+                id: parseSearch(window.location.search).projectId,
             },
         }],
     });
@@ -38,7 +38,7 @@ export default function ElevationSearch({
         refetchQueries: () => [{
             query,
             variables: {
-                id: +parseSearch(window.location.search).projectId,
+                id: parseSearch(window.location.search).projectId,
             },
         }],
     });

@@ -44,12 +44,13 @@ System.navigationOptions = ({
                     }
                 `,
                 variables: {
-                    id: +parseSearch(search).systemId,
+                    id: parseSearch(search).systemId,
                 },
                 fetchPolicy: "no-cache",
             }}
         >
             {({
+                queryResult,
                 queryResult: {
                     _system: {
                         name = '',
@@ -61,6 +62,14 @@ System.navigationOptions = ({
                 },
             }) => {
                 const { systemId, manufacturerId: mnfgId } = parseSearch(search);
+                console.log({
+                    queryResult,
+                    manufacturerId,
+                    mnfgId,
+                    name,
+                    normName: normalCase(name),
+                    idsEqual: manufacturerId === mnfgId,
+                });
                 return (
                     loading ?
                         <Ellipsis />
@@ -68,7 +77,7 @@ System.navigationOptions = ({
                         systemId === 'null' ?
                             "New System"
                             :
-                            `${manufacturerId}` === mnfgId ?
+                            manufacturerId === mnfgId ?
                                 normalCase(name)
                                 :
                                 <Redirect

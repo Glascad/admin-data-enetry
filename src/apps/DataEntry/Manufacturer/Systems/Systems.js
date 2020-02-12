@@ -31,7 +31,7 @@ export default function Systems({
     } = {},
 }) {
     const { manufacturerId } = parseSearch(search);
-    const variables = { manufacturerId: +manufacturerId };
+    const variables = { manufacturerId };
     const [deleteSystem] = useApolloMutation(deleteSystemMutation);
     return (
         <div className="card">

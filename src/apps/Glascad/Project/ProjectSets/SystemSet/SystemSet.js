@@ -46,12 +46,12 @@ export default function SystemSet({
     fetchingProject,
 }) {
 
-    const { systemSetId, sampleSystemSet = {}, projectId } = parseSearch(search);
+    const { systemSetId = 0, sampleSystemSet = {}, projectId } = parseSearch(search);
 
     // splice in sample system set into the system set query result
     // and add sample system to all systems array
     const { systemSet: _sampleSystemSet, system: _sampleSystem } = SAMPLE_SYSTEM_SETS[sampleSystemSet] || {};
-    const ssqr = useApolloQuery(query, { variables: { systemSetId: +systemSetId || 0 } });
+    const ssqr = useApolloQuery(query, { variables: { systemSetId } });
     const {
         _systemSet = {},
     } = ssqr;
@@ -172,8 +172,8 @@ export default function SystemSet({
     const save = useSaveOnCtrlS(async () => asyncPipe(
         {
             ...systemSetUpdate,
-            projectId: +projectId,
-            id: +systemSetId,
+            projectId,
+            id: systemSetId,
         },
         // asyncTap(systemSetPayload => console.log({ systemSetPayload })),
         systemSet => updateSystemSet({ systemSet }),

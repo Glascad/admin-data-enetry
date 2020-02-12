@@ -72,7 +72,7 @@ export default function ElevationInfo({
             const elevation = {
                 ...saveElevationInput,
                 systemSetId, 
-                id: +parseSearch(search).elevationId,
+                id: parseSearch(search).elevationId,
             };
 
             const result = await updateEntireElevation({

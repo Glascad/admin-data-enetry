@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import pipe from '../functions/pipe';
 
 /**
  * parseSearch converts the search string from the url into an object for easy use
@@ -20,7 +21,13 @@ const parseSearch = search => search.replace(/^.*?\?/, "")
     ))
     .reduce((parsedSearch, pair) => ({
         ...parsedSearch,
-        [pair.replace(/=.*/, "")]: pair.replace(/^.*?=/, ""),
+        [pair.replace(/=.*/, "")]: pipe(
+            pair.replace(/^.*?=/, ""),
+            val => `${+val}` === `${val}` ?
+                +val
+                :
+                val,
+        ),
     }), {});
 
 const joinSearch = searchObject => Object
@@ -40,32 +47,29 @@ const joinSearch = searchObject => Object
         }`, '');
 
 class Search {
-    constructor(search) {
+    constructor(searchString) {
 
-        if (typeof search === 'string') {
-            this.search = search;
-            this.parsedSearch = parseSearch(search);
-        } else {
-            this.parsedSearch = search;
-            this.search = joinSearch(search);
-        }
+        if (typeof searchString !== 'string') return new Search(joinSearch(searchString));
 
-        Object.assign(this, this.parsedSearch);
+        this.__parsedSearch = parseSearch(searchString);
+        this.__search = joinSearch(this.__parsedSearch);
+
+        Object.assign(this, this.__parsedSearch);
 
         console.log(this);
     }
 
     update = searchObject => new Search({
-        ...this.parsedSearch,
+        ...this.__parsedSearch,
         ...searchObject,
     });
 
     remove = (...keys) => keys.reduce((search, key) => new Search({
         ...search,
         [key]: undefined,
-    }), this.parsedSearch);
+    }), this.__parsedSearch);
 
-    toString = () => this.search;
+    toString = () => this.__search;
 }
 
 export default _.memoize(search => new Search(search));
