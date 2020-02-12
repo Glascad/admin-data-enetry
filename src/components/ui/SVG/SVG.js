@@ -39,10 +39,13 @@ export default function SVG({
     className = '',
 }) {
     const [selectedPathIndex, selectPath] = useState();
+    const extremeValues = getPartExtremities({ paths });
+    const viewBox = svg.getViewBox(extremeValues);
+    console.log({ viewBox, extremeValues, paths });
     return (
         <svg
             className={className}
-            viewBox={svg.getViewBox(getPartExtremities({ paths }))}
+            viewBox={viewBox}
             transform="scale(1, -1)"
         >
             {paths.map(({ commands, color }, i) => (

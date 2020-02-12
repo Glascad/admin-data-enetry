@@ -22,6 +22,8 @@ export default function ElevationSearch({
         } = {},
     },
 }) {
+    console.log(arguments[0]);
+
     const [deleteElevation, { __raw: { loading: deleting } }] = useApolloMutation(deleteElevationMutation, {
         awaitRefetchQueries: true,
         refetchQueries: () => [{
@@ -97,7 +99,9 @@ export default function ElevationSearch({
                                         },
                                     } = await copyElevation({
                                         elevationId: id,
-                                        newName: `${name} - Copy`,
+                                        newName: name.replace(/ \(\d+\)?$/, (match, ...args) => {
+                                            console.log([match, ...args]);
+                                        }),
                                     });
 
 
@@ -151,8 +155,7 @@ export default function ElevationSearch({
                         hoverButtons,
                         children,
                     };
-                }
-                }
+                }}
                 circleButton={{
                     type: "tile",
                     className: copying ? "primary" : undefined,

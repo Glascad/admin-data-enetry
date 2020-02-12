@@ -36,6 +36,14 @@ export const getCommandCoordinates = commands => commands.reduce((vals, {
             M: { x: one, y: two },
             L: { x: one, y: two },
             A: { x: six, y: seven },
+            H: () => ({
+                x: one,
+                y: vals[vals.length - 1].y,
+            }),
+            V: () => ({
+                x: vals[vals.length - 1].x,
+                y: one,
+            }),
         })
         .otherwise([])
 ), [])

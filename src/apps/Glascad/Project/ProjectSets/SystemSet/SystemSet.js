@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import React, { useEffect } from 'react';
 import { getDefaultOptionGroupValue, getDefaultPath, SystemMap } from '../../../../../app-logic/system';
-import { AsyncButton, ConfirmButton, TitleBar, useApolloMutation, useApolloQuery, useRedoableState, useSaveOnCtrlS } from '../../../../../components';
+import { AsyncButton, ConfirmButton, TitleBar, useApolloMutation, useApolloQuery, useLazyApolloQuery, useRedoableState, useSaveOnCtrlS } from '../../../../../components';
 import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
 import Details from './Details/Details';
@@ -82,24 +82,21 @@ export default function SystemSet({
 
     // compare system id of system set to the sample system id
     // if same splice sample system into system query result
-    const qr = useApolloQuery(
-        gql`
-            query SystemById($systemId: Int!) {
-                systemById(id: $systemId) {
-                    ...EntireSystem
-                }
+    const [fetchSystem, qr] = useLazyApolloQuery(gql`
+        query SystemById($systemId: Int!) {
+            systemById(id: $systemId) {
+                ...EntireSystem
             }
-            ${F.MNFG.ENTIRE_SYSTEM}
-        `);
+        }
+        ${F.MNFG.ENTIRE_SYSTEM}
+    `);
+    
     const {
         _system = {},
         _system: {
             id: newSystemId,
             _detailConfigurations = [],
             _optionGroups = [],
-        } = {},
-        __raw: {
-            refetch: fetchSystem,
         } = {},
     } = qr;
 

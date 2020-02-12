@@ -39,7 +39,7 @@ import transformProps from './higher-order/transform-props';
 import nullIf from './higher-order/null-if';
 
 // HOOKS
-import useApolloQuery from './hooks/use-apollo-query';
+import useApolloQuery, { useLazyApolloQuery } from './hooks/use-apollo-query';
 import useApolloMutation from './hooks/use-apollo-mutation';
 import useRedoableState, { withRedoableState } from './hooks/use-redoable-state';
 import useInitialState from './hooks/use-initial-state';
@@ -103,6 +103,7 @@ export {
     nullIf,
     // HOOKS
     useApolloQuery,
+    useLazyApolloQuery,
     useApolloMutation,
     useRedoableState,
     useInitialState,
