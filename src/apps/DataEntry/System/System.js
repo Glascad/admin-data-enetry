@@ -50,7 +50,6 @@ System.navigationOptions = ({
             }}
         >
             {({
-                queryResult,
                 queryResult: {
                     _system: {
                         name = '',
@@ -62,20 +61,12 @@ System.navigationOptions = ({
                 },
             }) => {
                 const { systemId, manufacturerId: mnfgId } = parseSearch(search);
-                console.log({
-                    queryResult,
-                    manufacturerId,
-                    mnfgId,
-                    name,
-                    normName: normalCase(name),
-                    idsEqual: manufacturerId === mnfgId,
-                });
                 return (
-                    loading ?
-                        <Ellipsis />
+                    systemId === 'null' ?
+                        "New System"
                         :
-                        systemId === 'null' ?
-                            "New System"
+                        loading ?
+                            <Ellipsis />
                             :
                             manufacturerId === mnfgId ?
                                 normalCase(name)
@@ -90,6 +81,7 @@ System.navigationOptions = ({
 });
 
 export default function System({
+    history,
     location: {
         search,
     },
@@ -114,6 +106,11 @@ export default function System({
     useEffect(() => {
         refetch();
     }, [systemId]);
+
+    useEffect(() => () => setTimeout(() => {
+        const { location: { search, pathname } } = window;
+        if (parseSearch(search).systemId === 'null') history.push(`${pathname}${parseSearch(search).remove('systemId')}`);
+    }), []);
 
     console.log({ qr });
 

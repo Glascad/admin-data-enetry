@@ -14,7 +14,7 @@ import SystemOptions from './SystemOptions/SystemOptions';
 import './SystemSet.scss';
 import SystemSetInfo from './SystemSetInfo/SystemSetInfo';
 
-const query = gql`query SystemSet($systemSetId: Int!) {
+const query = gql`query SystemSet($systemSetId: Int! = 0) {
     systemSetById(id: $systemSetId) {
         ...EntireSystemSet
     }
@@ -46,7 +46,7 @@ export default function SystemSet({
     fetchingProject,
 }) {
 
-    const { systemSetId = 0, sampleSystemSet = {}, projectId } = parseSearch(search);
+    const { systemSetId, sampleSystemSet = {}, projectId } = parseSearch(search);
 
     // splice in sample system set into the system set query result
     // and add sample system to all systems array
