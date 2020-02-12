@@ -8,7 +8,7 @@ export default function ElevationPreview({
     recursiveElevation,
     dataCy,
 }) {
-    console.log(arguments);
+    console.log(arguments[0]);
 
     return (
         <div

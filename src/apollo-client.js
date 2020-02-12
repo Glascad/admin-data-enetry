@@ -14,8 +14,8 @@ export default new ApolloClient({
                 authorization: getAuthorization(),
             }),
         })),
-        onError(({ graphQLErrors, networkError }) => {
-            console.error({ graphQLErrors, networkError });
+        onError(({ graphQLErrors, networkError, operation }) => {
+            console.error({ graphQLErrors, networkError, operation });
             // send the error to error alert system
         }),
         setContext((request, context) => {

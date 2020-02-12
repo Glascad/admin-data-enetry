@@ -4,7 +4,7 @@ import pipe from './pipe';
 import removeNullishValues from './remove-nullish-values';
 import replaceByKeys from './replace-by-keys';
 
-const normalizeQueryResponse = __raw => pipe(
+const normalizeQueryResponse = (__raw = {}) => pipe(
     __raw.data,
     extractArrayCount,
     replaceByKeys,

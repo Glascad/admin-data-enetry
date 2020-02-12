@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { normalizeQueryResponse } from "../../utils";
 import { useEffect } from "react";
 
@@ -14,4 +14,12 @@ export default (query, options = {}) => {
     }, [query, JSON.stringify(variables)]);
 
     return normalizeQueryResponse(result);
+}
+
+export const useLazyApolloQuery = (query, options = {}) => {
+    const [fetch, result] = useLazyQuery(query, options);
+    return [
+        async (variables = options.variables) => normalizeQueryResponse(await fetch({ variables })),
+        normalizeQueryResponse(result),
+    ];
 }
