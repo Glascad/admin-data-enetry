@@ -3,8 +3,6 @@ describe(`Data Entry can create, delete and interact with system cards`, () => {
     beforeEach(() => {
         cy.login();
         cy.visit(`http://localhost:3000/data-entry/manufacturer/systems?=&manufacturerId=1&systemId=1`);
-        // Line Below should not exist if routed correctly
-        cy.getDataCy`Test Mnfg-systems-button`.click({ force: true })
     });
     
     const generatedId = Math.floor(Math.random() * 10000);

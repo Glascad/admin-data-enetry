@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input, Select } from '../../../../../../../../components';
 
 export default function ElevationId({
     name,
-    _systemSets,
+    loading,
+    _systemSets = [],
+    _systemSets: {
+        0: firstSystemSet
+    } = {},
     systemSetId,
     updateElevation,
 }) {
+
+    const selectedSystemSet = (_systemSets.find(({ id }) => id === systemSetId) || {}).name;
+
+    console.log({
+        _systemSets,
+        selectedSystemSet,
+
+    })
+    useEffect(() => {
+        console.log('USING EFFECT')
+        if (!selectedSystemSet && _systemSets.length > 0) updateElevation({ systemSetId: firstSystemSet.id });
+    }, [!loading])
+
+
     return (
         <>
             <Input
@@ -21,7 +39,7 @@ export default function ElevationId({
             <Select
                 data-cy="system-set"
                 label="System set"
-                value={(_systemSets.find(({ id }) => id === systemSetId) || {}).name}
+                value={selectedSystemSet}
                 options={_systemSets.map(({ name }) => name)}
                 onChange={value => updateElevation({
                     systemSetId: (_systemSets.find(({ name }) => name === value) || {}).id,

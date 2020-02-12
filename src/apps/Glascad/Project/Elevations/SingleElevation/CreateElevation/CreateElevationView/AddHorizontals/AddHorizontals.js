@@ -4,6 +4,7 @@ import { defaultHorizontal } from '../../utils/elevation-input';
 import Horizontal from './Horizontal';
 
 export default function AddHorizontals({
+    setHorizontals,
     horizontals,
     updateElevation,
     measureFromOptions,
@@ -18,6 +19,8 @@ export default function AddHorizontals({
                 actionType: "add",
                 className: "action",
                 onClick: () => {
+                    console.log('ADDING HORIZONTAL')
+
                     const lastHorizontal = horizontals[horizontals.length - 1] || defaultHorizontal;
 
                     const {
@@ -27,14 +30,18 @@ export default function AddHorizontals({
                     var { originalContainer: topContainer } = recursiveElevation;
 
                     while (topContainer.topContainers.length) {
+                        console.log({ topContainer });
                         topContainer = topContainer.topContainers[0];
                     }
+
+                    console.log({ topContainer, distance, lastHorizontal })
 
                     if (
                         (horizontals.length === 0)
                         ||
                         topContainer.canAddHorizontalByDistance(distance)
                     ) {
+                        console.log({ horizontals: horizontals.concat(lastHorizontal) })
                         updateElevation({
                             horizontals: horizontals.concat(lastHorizontal),
                         });
