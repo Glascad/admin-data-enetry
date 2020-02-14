@@ -2,17 +2,20 @@ import React from 'react';
 import { asyncPipe, match } from "../utils";
 import Statics from './Statics/Statics';
 
-const DE = 'DataEntry';
-const GC = 'Glascad';
+const DATA_ENTRY = {
+    name: 'DataEntry',
+    _import: () => import('./DataEntry/DataEntry'),
+};
+const GLASCAD = {
+    name: 'Glascad',
+    _import: () => import('./Glascad/Glascad'),
+};
 
 const rolePermissions = {
-    GC_ADMIN: [GC, DE],
-    GC_DATA_ENTRY: [DE],
-    GC_CLIENT: [GC],
-    unauthenticated: [
-        // GC,
-        // DE,
-    ],
+    GC_ADMIN: [GLASCAD, DATA_ENTRY],
+    GC_DATA_ENTRY: [DATA_ENTRY],
+    GC_CLIENT: [GLASCAD],
+    unauthenticated: [],
 };
 
 export default (role = '') => asyncPipe(
@@ -20,9 +23,9 @@ export default (role = '') => asyncPipe(
     // get allowed application names by role
     role => match(role).against(rolePermissions).otherwise(rolePermissions.unauthenticated),
     // fetch allowed applications
-    names => Promise.all(names.map(async name => ({
+    names => Promise.all(names.map(async ({ name, _import }) => ({
         name,
-        module: await import(`./${name}/${name}`),
+        module: await _import(),
     }))),
     // organize applications into a single object
     apps => apps.reduce((apps, {

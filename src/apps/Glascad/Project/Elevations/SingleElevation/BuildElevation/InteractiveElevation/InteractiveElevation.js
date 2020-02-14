@@ -1,31 +1,19 @@
-import React, {
-    useRef,
-    useState,
-    useContext,
-    useEffect,
-} from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-
+import { Ellipsis, TransformBox, withContext } from '../../../../../../../components';
+import { match, parseSearch } from '../../../../../../../utils';
 import { StaticContext } from '../../../../../../Statics/Statics';
-import { TransformContext, pixelsPerInch, withTransformContext } from '../contexts/ElevationTransformProvider';
-
-// import Container from './components/Container';
-import Container from './Containers/Container';
-import Frame from './Frames/Frame';
-import DimensionButton from './components/DimensionButton/DimensionButton';
-
-import './InteractiveElevation.scss';
-import SelectionLayer from './components/SelectionLayer/SelectionLayer';
-import { withContext, Ellipsis, TransformBox } from '../../../../../../../components';
-import { SelectionContext } from '../contexts/SelectionContext';
-import RecursiveContainer from '../../utils/recursive-elevation/container';
-import RecursiveFrame from '../../utils/recursive-elevation/frame';
-import RecursiveDetail from '../../utils/recursive-elevation/detail';
-import { parseSearch, match } from '../../../../../../../utils';
 import { SAMPLE_ELEVATIONS } from '../../SingleElevation';
+import RecursiveContainer from '../../utils/recursive-elevation/container';
+import RecursiveDetail from '../../utils/recursive-elevation/detail';
+import RecursiveFrame from '../../utils/recursive-elevation/frame';
+import { pixelsPerInch } from '../contexts/ElevationTransformProvider';
+import { SelectionContext } from '../contexts/SelectionContext';
+import DimensionButton from './components/DimensionButton/DimensionButton';
+import SelectionLayer from './components/SelectionLayer/SelectionLayer';
 import Containers from './Containers/Containers';
 import Frames from './Frames/Frames';
+import './InteractiveElevation.scss';
 
 const InteractiveElevation = ({
     location: {
@@ -63,7 +51,7 @@ const InteractiveElevation = ({
     useEffect(() => {
         setTimeout(() => {
             setLoadingTooLong(true);
-        }, 2000);
+        }, 3000);
     }, []);
 
     const {
