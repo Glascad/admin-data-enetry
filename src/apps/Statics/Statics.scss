@@ -76,7 +76,7 @@
         margin-top: auto;
 
         #current-user {
-            width: fill;
+            width: stretch;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -90,10 +90,10 @@
 
         > * {
             margin: $x-large;
-            width: fill;
+            width: stretch;
 
             button {
-                width: fill;
+                width: stretch;
             }
 
             + * {

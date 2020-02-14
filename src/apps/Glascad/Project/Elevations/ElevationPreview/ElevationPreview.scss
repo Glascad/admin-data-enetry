@@ -16,8 +16,8 @@
 
 .Pill {
     .ElevationPreview {
-        height: fill;
-        width: fill;
+        height: stretch;
+        width: stretch;
         padding: $large $x-small;
         display: flex;
         align-items: flex-end;

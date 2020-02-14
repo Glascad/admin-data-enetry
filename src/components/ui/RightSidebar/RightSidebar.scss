@@ -93,21 +93,21 @@
     }
 
     .Input {
-        width: fill;
+        width: stretch;
 
         input {
-            width: fill;
+            width: stretch;
         }
 
         .select-input-wrapper {
-            width: fill;
+            width: stretch;
         }
 
         .select-options {
-            width: fill;
+            width: stretch;
 
             .select-option {
-                width: fill;
+                width: stretch;
             }
         }
 
@@ -267,7 +267,7 @@
     }
 
     .GroupingBox {
-        width: fill;
+        width: stretch;
         padding-top: $base-size;
         padding-bottom: $x-large;
 
