@@ -1,6 +1,6 @@
 const { Client } = require('pg');
-const compileSeedFile = require('./compile-seed-file');
 const log = require('./log');
+const compileSeedFile = require('./compile-seed-file');
 
 const {
     env: {
