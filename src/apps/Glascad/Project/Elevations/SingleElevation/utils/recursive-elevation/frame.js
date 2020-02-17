@@ -1,4 +1,5 @@
 import { lastItem, Loggable, replace, unique } from "../../../../../../../utils";
+import CONTENT_TYPES from "../../../../../../../utils/objects/content_types";
 
 const containersKey = 'containers<first>';
 const runsAlongEdgeKey = 'runs_along_edge<first>';
@@ -174,13 +175,13 @@ export default class RecursiveFrame extends Loggable {
     get realFirstContainers() {
         return this.__realFirstContainers || (
             this.__realFirstContainers = this.firstContainers
-                .filter(({ customRoughOpening } = { customRoughOpening: false }) => !customRoughOpening)
+                .filter(({ contents } = {}) => contents === CONTENT_TYPES.GLASS)
         );
     }
     get realSecondContainers() {
         return this.__realSecondContainers || (
             this.__realSecondContainers = this.secondContainers
-                .filter(({ customRoughOpening } = { customRoughOpening: false }) => !customRoughOpening)
+                .filter(({ contents } = {}) => contents === CONTENT_TYPES.GLASS)
         );
     }
 
@@ -227,11 +228,11 @@ export default class RecursiveFrame extends Loggable {
             this[runsAlongEdgeKey][first] = !!(
                 !firstEndContainer
                 ||
-                firstEndContainer.customRoughOpening
+                firstEndContainer.contents !== CONTENT_TYPES.GLASS
                 ||
                 !secondEndContainer
                 ||
-                secondEndContainer.customRoughOpening
+                secondEndContainer.contents !== CONTENT_TYPES.GLASS
             );
         }
         return this[runsAlongEdgeKey][first];
@@ -262,19 +263,19 @@ export default class RecursiveFrame extends Loggable {
                 (
                     !firstEndContainer
                     ||
-                    firstEndContainer.customRoughOpening
+                    firstEndContainer.contents !== CONTENT_TYPES.GLASS
                     ||
                     !firstEndAdjacentContainer
                     ||
-                    firstEndAdjacentContainer.customRoughOpening
+                    firstEndAdjacentContainer.contents !== CONTENT_TYPES.GLASS
                 ) && (
                     !secondEndContainer
                     ||
-                    secondEndContainer.customRoughOpening
+                    secondEndContainer.contents !== CONTENT_TYPES.GLASS
                     ||
                     !secondEndAdjacentContainer
                     ||
-                    secondEndAdjacentContainer.customRoughOpening
+                    secondEndAdjacentContainer.contents !== CONTENT_TYPES.GLASS
                 )
             );
         }

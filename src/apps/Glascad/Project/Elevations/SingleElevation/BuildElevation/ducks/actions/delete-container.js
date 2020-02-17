@@ -1,13 +1,19 @@
 import { DIRECTIONS, GET_RELATIVE_DIRECTIONS, replace } from "../../../../../../../../utils";
 import MERGE_CONTAINERS from './merge-containers';
+import updateDLO from "./utils/update-dlo";
+import CONTENT_TYPES from "../../../../../../../../utils/objects/content_types";
+
+const {
+    UP,
+    DOWN,
+    RIGHT,
+    LEFT,
+} = DIRECTIONS
 
 DELETE_CONTAINER.getSelectedItems = ({ }) => ({ }) => ([]);
 
 export default function DELETE_CONTAINER({
     elevationInput,
-    elevationInput: {
-        containers = [],
-    },
 }, {
     container,
     container: {
@@ -18,37 +24,65 @@ export default function DELETE_CONTAINER({
     },
 }) {
 
-    const mergeDirection = [DIRECTIONS.UP, DIRECTIONS.DOWN]
+    const allDirection = [UP, DOWN, RIGHT, LEFT];
+    // Expand containers DLO to account for non existent details. 
+    // Merge available in any direction will be merged
+    const mergeDirection = allDirection
         .find(direction => {
             const [otherContainer] = container.getImmediateContainersByDirection(...direction);
             return (
                 otherContainer
                 &&
-                otherContainer.customRoughOpening
+                otherContainer.contents !== CONTENT_TYPES.GLASS
                 &&
                 container.canMergeByDirection(...direction, true)
             );
         });
 
+    // The container will adjust SL for any place that needs to Override SL
+    const elevationWithUpdatedDeletedDLO = allDirection.reduce((elevationWithUpdatedDeletedDLO, direction) => {
+
+        console.log({
+            container,
+            direction,
+            canOverrideSightlineByDirection: container.canOverrideSightlineByDirection(...direction)
+        })
+
+        return container.canOverrideSightlineByDirection(...direction) ?
+            updateDLO({ elevationInput: elevationWithUpdatedDeletedDLO }, {
+                container,
+                vertical: direction[0],
+                distance: -container.getFrameByDirection(...direction).placement[direction[0] ? 'height' : 'width']
+            }).elevationInput
+            :
+            elevationWithUpdatedDeletedDLO
+    }, elevationInput);
+
+
+
     if (mergeDirection) {
-        return MERGE_CONTAINERS(arguments[0], {
+        return MERGE_CONTAINERS({ elevationInput: elevationWithUpdatedDeletedDLO }, {
             container: container.getImmediateContainersByDirection(...mergeDirection)[0],
             direction: GET_RELATIVE_DIRECTIONS(mergeDirection).BACKWARD,
             allowCustomRoughOpenings: true,
         });
     }
 
+    const {
+        containers = [],
+    } = elevationWithUpdatedDeletedDLO;
+
     const previouslyUpdatedContainer = containers.find(({ id }) => id === containerId);
 
     const deletedContainer = {
         ...rawContainer,
         ...previouslyUpdatedContainer,
-        customRoughOpening: true,
+        contents: container.getNewContentsType(),
     };
 
     return {
         elevationInput: {
-            ...elevationInput,
+            ...elevationWithUpdatedDeletedDLO,
             containers: previouslyUpdatedContainer ?
                 replace(containers,
                     containers.indexOf(previouslyUpdatedContainer),

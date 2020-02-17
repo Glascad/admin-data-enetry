@@ -1,5 +1,6 @@
-import { DIRECTIONS, GET_RELATIVE_DIRECTIONS, Loggable, unique } from '../../../../../../../utils';
+import { DIRECTIONS, GET_RELATIVE_DIRECTIONS, Loggable, unique, match } from '../../../../../../../utils';
 import sortDetails from './sort-details';
+import CONTENT_TYPES from '../../../../../../../utils/objects/content_types';
 
 const detailsKey = 'details<vertical><first>';
 const framesKey = 'frames<vertical><first>';
@@ -7,6 +8,8 @@ const containersKey = 'containers<vertical><first>';
 const allContainersKey = 'all_containers<vertical><first>';
 
 const { UP, DOWN, LEFT, RIGHT } = DIRECTIONS;
+const { GLASS, VOID_INTERNAL, VOID_LEFT_NOTCH, VOID_RIGHT_NOTCH, VOID_RAISED_CURB, VOID_STEPPED_HEAD } = CONTENT_TYPES
+
 
 export default class RecursiveContainer extends Loggable {
 
@@ -183,7 +186,8 @@ export default class RecursiveContainer extends Loggable {
                 this.leftFrame ?
                     this.leftFrame.sightline
                     :
-                    this.elevation.sightline
+                    // this.elevation.sightline
+                    0
             ) + (
                 this.leftContainers[0] ? (
                     (this.leftContainers[0].placement.x || 0)
@@ -201,8 +205,8 @@ export default class RecursiveContainer extends Loggable {
             this.__placementY = (
                 (this.bottomFrame && this.bottomFrame.sightline)
                 ||
-                this.elevation.sightline
-                ||
+                // this.elevation.sightline
+                // ||
                 0
             ) + ((
                 this.bottomContainers[0]
@@ -264,7 +268,7 @@ export default class RecursiveContainer extends Loggable {
     // MERGE
     canMergeByDirection = (vertical, first, allowCustomRoughOpenings = false) => {
 
-        if (!allowCustomRoughOpenings && this.customRoughOpening) return false;
+        if (!allowCustomRoughOpenings && this.contents !== CONTENT_TYPES.GLASS) return false;
 
         const direction = [vertical, first];
         const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
@@ -276,7 +280,18 @@ export default class RecursiveContainer extends Loggable {
         const DLOKey = vertical ? 'width' : 'height';
 
         return !!(
-            container
+            (
+                // console.log({
+                //     direction,
+                //     container,
+                //     otherContainers,
+                //     backwardContainers,
+                //     allowCustomRoughOpenings,
+                //     thiss: this,
+                // })
+                // ||
+                container
+            )
             &&
             !otherContainers.length
             &&
@@ -285,20 +300,89 @@ export default class RecursiveContainer extends Loggable {
             (
                 allowCustomRoughOpenings
                 ||
-                !container.customRoughOpening
+                container.contents === CONTENT_TYPES.GLASS
             )
             &&
             container.daylightOpening.dimensions[DLOKey] === this.daylightOpening.dimensions[DLOKey]
         );
     }
 
-    get canMergeLeft() { return this.canMergeByDirection(...LEFT); }
-    get canMergeRight() { return this.canMergeByDirection(...RIGHT); }
-    get canMergeUp() { return this.canMergeByDirection(...UP); }
-    get canMergeDown() { return this.canMergeByDirection(...DOWN); }
+    get canMergeLeft() { return this.canMergeByDirection(...LEFT) };
+    get canMergeRight() { return this.canMergeByDirection(...RIGHT) };
+    get canMergeUp() { return this.canMergeByDirection(...UP) };
+    get canMergeDown() { return this.canMergeByDirection(...DOWN) };
+
+    canOverrideSightlineByDirection = (vertical, first) => {
+        const containersByDirection = this.getImmediateContainersByDirection(vertical, first);
+
+        return containersByDirection.length === 0 || (
+            containersByDirection.length === 1
+            &&
+            !this.canMergeByDirection(vertical, first, true)
+            &&
+            containersByDirection[0].contents !== CONTENT_TYPES.GLASS
+        )
+    }
 
     // DELETE
-    get canDelete() { return !this.customRoughOpening; }
+    get canDelete() {
+
+        // TODO Cannot delete Bay
+
+        return [UP, DOWN, LEFT, RIGHT].every(direction => {
+            const containersByDirection = this.getImmediateContainersByDirection(...direction);
+
+            return containersByDirection.every(container => match(container.contents)
+                .equals(GLASS, true)
+                // Can only delete if container can merge with Internal
+                .equals(VOID_INTERNAL, this.canMergeByDirection(...direction, true))
+                .equals(VOID_STEPPED_HEAD, (
+                    this.topContainers.length === 0
+                    ||
+                    (
+                        this.canMergeByDirection(true, false, true)
+                        &&
+                        this.topContainers[0].contents === VOID_STEPPED_HEAD
+                    )
+                ))
+                .equals(VOID_RAISED_CURB, (
+                    this.bottomContainers.length === 0
+                    ||
+                    (
+                        this.canMergeByDirection(true, true, true)
+                        &&
+                        this.bottomContainers[0].contents.match(/VOID/i)
+                    )
+                ))
+                .equals(VOID_LEFT_NOTCH, (
+                    this.leftContainers.length === 0
+                    ||
+                    (
+                        this.canMergeByDirection(false, true, true)
+                        &&
+                        this.leftContainers[0].contents.match(/VOID/i)
+                        &&
+                        this.topContainers[0].contents.match(/VOID/i))
+                    &&
+                    this.bottomContainers[0].contents.match(/VOID/i))
+                )
+                .equals(VOID_RIGHT_NOTCH, (
+                    this.rightContainers.length === 0
+                    ||
+                    (
+                        this.canMergeByDirection(false, false, true)
+                        &&
+                        this.rightContainers[0].contents.match(/VOID/i)
+                        &&
+                        this.topContainers[0].contents.match(/VOID/i))
+                    &&
+                    this.bottomContainers[0].contents.match(/VOID/i))
+                )
+                .otherwise(false)
+            )
+
+        })
+    }
 
     // ADD INTERMEDIATE
     canAddIntermediateByVerticalAndDistance = (vertical, distance) => !!(
@@ -361,4 +445,18 @@ export default class RecursiveContainer extends Loggable {
         }
     }
 
+    // GET CONTENTS TYPE
+    getNewContentsType = () => this.bottomContainers.length === 0 ?
+        CONTENT_TYPES.VOID_RAISED_CURB
+        :
+        this.topContainers.length === 0 ?
+            CONTENT_TYPES.VOID_STEPPED_HEAD
+            :
+            this.rightContainers.length === 0 ?
+                CONTENT_TYPES.VOID_RIGHT_NOTCH
+                :
+                this.leftContainers.length === 0 ?
+                    CONTENT_TYPES.VOID_LEFT_NOTCH
+                    :
+                    CONTENT_TYPES.VOID_INTERNAL;
 }

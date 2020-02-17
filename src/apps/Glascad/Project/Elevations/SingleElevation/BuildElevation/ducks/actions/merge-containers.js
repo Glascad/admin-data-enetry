@@ -121,7 +121,12 @@ export default function MERGE_CONTAINERS({
         );
 
     // FIRST MERGE DLOS
+    console.log('MERGING')
     const elevationWithMergedContainers = mergeDLO(...arguments);
+    console.log({
+        elevationInput,
+        elevationWithMergedContainers,
+    })
 
     // THEN DELETE CONTAINER
     const elevationWithDeletedContainer = deleteContainer(elevationWithMergedContainers, {

@@ -1,4 +1,5 @@
 import { replace } from "../../../../../../../../../utils";
+import CONTENT_TYPES from "../../../../../../../../../utils/objects/content_types";
 
 export default function mergeDLO({
     elevationInput,
@@ -20,6 +21,7 @@ export default function mergeDLO({
             },
             original,
         },
+        contents,
     },
     direction,
     direction: [
@@ -28,18 +30,40 @@ export default function mergeDLO({
     ],
 }) {
 
-    const [
-        {
-            rawContainer: {
-                daylightOpening: DLOToMerge,
-                original: originalToMerge
+    const [mergedContainer] = container.getImmediateContainersByDirection(...direction);
+    const {
+        id: mergedID,
+        rawContainer: {
+            daylightOpening: {
+                dimensions: {
+                    width: DLOToMergeWidth,
+                    height: DLOToMergeHeight,
+                },
             },
+            original: originalToMerge
         },
-    ] = container.getImmediateContainersByDirection(...direction);
+    } = mergedContainer;
 
-    const { sightline } = container.getFrameByDirection(...direction) || elevation;
+    const { sightline = 0 } = container.getFrameByDirection(...direction) || {};
 
     const previouslyUpdatedContainer = containers.find(({ id }) => id === containerId);
+    const {
+        daylightOpening: {
+            dimensions: {
+                width: mergedUpdatedWidth,
+                height: mergedUpdatedHeight,
+            } = {},
+        } = {},
+    } = containers.find(({ id }) => id === mergedID) || {}
+
+    const {
+        daylightOpening: {
+            dimensions: {
+                width: updatedWidth,
+                height: updatedHeight,
+            } = {},
+        } = {},
+    } = previouslyUpdatedContainer || {};
 
     const updatedContainer = {
         ...rawContainer,
@@ -48,16 +72,18 @@ export default function mergeDLO({
         daylightOpening: {
             dimensions: {
                 width: vertical ?
-                    width
+                    (updatedWidth || width)
                     :
-                    width + sightline + DLOToMerge.dimensions.width,
+                    (updatedWidth || width) + sightline + (mergedUpdatedWidth || DLOToMergeWidth),
                 height: vertical ?
-                    height + sightline + DLOToMerge.dimensions.height
+                    (updatedHeight || height) + sightline + (mergedUpdatedHeight || DLOToMergeHeight)
                     :
-                    height,
+                    (updatedHeight || height),
             }
         },
+        contents: contents === CONTENT_TYPES.VOID_INTERNAL ? mergedContainer.getNewContentsType() : contents,
     };
+    console.log({ containerId, elevationInput, updatedWidth, updatedHeight, container, updatedContainer, sightline })
 
     return {
         elevationInput: {

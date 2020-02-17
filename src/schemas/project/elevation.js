@@ -36,7 +36,7 @@ export const ELEVATION_CONTAINER_FIELDS = gql`
                 height
             }
         }
-        # customRoughOpening
+        contents
     }
 `;
 
