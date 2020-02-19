@@ -152,6 +152,7 @@ function EditLite({
             ) : null}
             {allContainers.every(({ canDelete }) => canDelete) ? (
                 <button
+                    data-cy="sidebar-delete-button"
                     className="sidebar-button danger"
                     onClick={deleteContainers}
                 >

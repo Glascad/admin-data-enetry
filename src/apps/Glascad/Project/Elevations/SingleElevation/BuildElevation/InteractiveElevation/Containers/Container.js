@@ -33,7 +33,7 @@ const Container = memo(function Container({
             id={refId}
             data-cy={`container-${id}`}
             className={`Container ${
-                contents !== CONTENT_TYPES.GLASS ? 'custom-rough-opening' : ''
+                `${contents}`.toLowerCase().replace(/_/g, '-')
                 } ${
                 selected ? 'selected' : ''
                 } ${

@@ -333,51 +333,55 @@ export default class RecursiveContainer extends Loggable {
             const containersByDirection = this.getImmediateContainersByDirection(...direction);
 
             return containersByDirection.every(container => match(container.contents)
-                .equals(GLASS, true)
-                // Can only delete if container can merge with Internal
-                .equals(VOID_INTERNAL, this.canMergeByDirection(...direction, true))
-                .equals(VOID_STEPPED_HEAD, (
-                    this.topContainers.length === 0
-                    ||
-                    (
-                        this.canMergeByDirection(true, false, true)
-                        &&
-                        this.topContainers[0].contents === VOID_STEPPED_HEAD
-                    )
-                ))
-                .equals(VOID_RAISED_CURB, (
-                    this.bottomContainers.length === 0
-                    ||
-                    (
-                        this.canMergeByDirection(true, true, true)
-                        &&
-                        this.bottomContainers[0].contents.match(/VOID/i)
-                    )
-                ))
-                .equals(VOID_LEFT_NOTCH, (
-                    this.leftContainers.length === 0
-                    ||
-                    (
-                        this.canMergeByDirection(false, true, true)
-                        &&
-                        this.leftContainers[0].contents.match(/VOID/i)
-                        &&
-                        this.topContainers[0].contents.match(/VOID/i))
-                    &&
-                    this.bottomContainers[0].contents.match(/VOID/i))
-                )
-                .equals(VOID_RIGHT_NOTCH, (
-                    this.rightContainers.length === 0
-                    ||
-                    (
-                        this.canMergeByDirection(false, false, true)
-                        &&
-                        this.rightContainers[0].contents.match(/VOID/i)
-                        &&
-                        this.topContainers[0].contents.match(/VOID/i))
-                    &&
-                    this.bottomContainers[0].contents.match(/VOID/i))
-                )
+                .against({
+                    [GLASS]: true,
+                    [VOID_INTERNAL]: () => this.canMergeByDirection(...direction, true),
+                    // Can only delete if container can merge with Internal
+                    [VOID_STEPPED_HEAD]: () => (
+                        this.topContainers.length === 0
+                        ||
+                        (
+                            this.canMergeByDirection(true, false, true)
+                            &&
+                            this.topContainers[0].contents === VOID_STEPPED_HEAD
+                        )
+                    ),
+                    [VOID_RAISED_CURB]: () => (
+                        this.bottomContainers.length === 0
+                        ||
+                        (
+                            this.canMergeByDirection(true, true, true)
+                            &&
+                            this.bottomContainers[0].contents === VOID_RAISED_CURB
+                        )
+                    ),
+                    [VOID_LEFT_NOTCH]: () => (
+                        this.leftContainers.length === 0
+                        ||
+                        (
+                            this.canMergeByDirection(false, true, true)
+                            &&
+                            this.leftContainers[0].contents.match(/VOID/i)
+                            &&
+                            !this.topContainers[0].contents.match(/VOID/i)
+                            &&
+                            !this.bottomContainers[0].contents.match(/VOID/i)
+                        )
+                    ),
+                    [VOID_RIGHT_NOTCH]: () => (
+                        this.rightContainers.length === 0
+                        ||
+                        (
+                            this.canMergeByDirection(false, false, true)
+                            &&
+                            this.rightContainers[0].contents.match(/VOID/i)
+                            &&
+                            !this.topContainers[0].contents.match(/VOID/i)
+                            &&
+                            !this.bottomContainers[0].contents.match(/VOID/i)
+                        )
+                    ),
+                })
                 .otherwise(false)
             )
 

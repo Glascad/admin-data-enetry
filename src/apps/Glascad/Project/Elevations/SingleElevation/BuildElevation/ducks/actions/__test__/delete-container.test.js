@@ -116,83 +116,83 @@ testDeleteContainer({
 });
 
 // deleting 2 vertical containers from the side expands the height and width
-// testDeleteContainer({
-//     elevation: sample3,
-//     elevationInput: {
-//         containers:
-//             [
-//                 {
-//                     __typename: "UPDATED_CONTAINER",
-//                     id: 810,
-//                     original: false,
-//                     daylightOpening:
-//                     {
-//                         dimensions:
-//                         {
-//                             width: 96.6666666666667,
-//                             height: 60
-//                         }
-//                     }, customRoughOpening: true
-//                 }],
-//         details: []
-//     },
-//     containerId: 809,
-//     expectedHeight: 190,
-//     expectedWidth: 96.6666666666667,
-// });
+testDeleteContainer({
+    elevation: sample3,
+    elevationInput: {
+        containers:
+            [
+                {
+                    __typename: "UPDATED_CONTAINER",
+                    id: 810,
+                    original: false,
+                    daylightOpening:
+                    {
+                        dimensions:
+                        {
+                            width: 96.6666666666667,
+                            height: 60
+                        }
+                    }, customRoughOpening: true
+                }],
+        details: []
+    },
+    containerId: 809,
+    expectedHeight: 190,
+    expectedWidth: 96.6666666666667,
+});
 
-// testDeleteContainer({
-//     elevation: sample3,
-//     elevationInput: {
-//         containers:
-//             [
-//                 {
-//                     __typename: "UPDATED_CONTAINER",
-//                     id: 801,
-//                     original: false,
-//                     daylightOpening:
-//                     {
-//                         dimensions:
-//                         {
-//                             width: 96.6666666666667,
-//                             height: 60
-//                         }
-//                     }, 
-//                      customRoughOpening: true
-//                 }],
-//         details: []
-//     },
-//     containerId: 802,
-//     mergedContainerId: 801,
-//     expectedHeight: 190,
-//     expectedWidth: 96.6666666666667,
-// });
+testDeleteContainer({
+    elevation: sample3,
+    elevationInput: {
+        containers:
+            [
+                {
+                    __typename: "UPDATED_CONTAINER",
+                    id: 801,
+                    original: false,
+                    daylightOpening:
+                    {
+                        dimensions:
+                        {
+                            width: 96.6666666666667,
+                            height: 60
+                        }
+                    }, 
+                     customRoughOpening: true
+                }],
+        details: []
+    },
+    containerId: 802,
+    mergedContainerId: 801,
+    expectedHeight: 190,
+    expectedWidth: 96.6666666666667,
+});
 
-// // deleting 2 vertical containers from the middle expands just the height
+// deleting 2 vertical containers from the middle expands just the height
 
-// testDeleteContainer({
-//     elevation: sample3,
-//     elevationInput: {
-//         containers:
-//             [
-//                 {
-//                     __typename: "UPDATED_CONTAINER",
-//                     id: 805,
-//                     original: false,
-//                     daylightOpening:
-//                     {
-//                         dimensions:
-//                         {
-//                             width: 86.6666666666667,
-//                             height: 250
-//                         }
-//                     },
-//                     customRoughOpening: true
-//                 }],
-//         details: []
-//     },
-//     containerId: 804,
-//     mergedContainerId: 805,
-//     expectedHeight: 300,
-//     expectedWidth: 86.6666666666667,
-// });
+testDeleteContainer({
+    elevation: sample3,
+    elevationInput: {
+        containers:
+            [
+                {
+                    __typename: "UPDATED_CONTAINER",
+                    id: 805,
+                    original: false,
+                    daylightOpening:
+                    {
+                        dimensions:
+                        {
+                            width: 86.6666666666667,
+                            height: 250
+                        }
+                    },
+                    customRoughOpening: true
+                }],
+        details: []
+    },
+    containerId: 804,
+    mergedContainerId: 805,
+    expectedHeight: 300,
+    expectedWidth: 86.6666666666667,
+});

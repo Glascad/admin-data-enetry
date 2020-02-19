@@ -12,6 +12,7 @@ import sample8 from './sample8.json';
 import sample8Error from './sample8-error.json';
 import sample9 from './sample9.json';
 import sample9_5 from './sample9_5.json';
+import sample10 from "./sample10.json";
 // from bug reports
 import hhFrameError from './hh-frame-error.json';
 import error1 from './error-1.json';
@@ -31,6 +32,7 @@ export {
     sample8Error,
     sample9,
     sample9_5,
+    sample10,
     hhFrameError,
     error1,
 };
