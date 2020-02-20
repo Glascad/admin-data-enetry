@@ -1,0 +1,12 @@
+FROM postgres:11
+WORKDIR /db
+RUN apt-get update && apt-get upgrade -y && apt-get install curl -y
+# install node from source, for debian distros
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get install -y nodejs
+# COPY package*.json ./
+RUN npm i
+# COPY . .
+RUN npm i -g nodemon
+EXPOSE 5432
+ENTRYPOINT ["nodemon", "./js/index.js"]
