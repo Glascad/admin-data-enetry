@@ -33,15 +33,23 @@ BEGIN
     <<END LOOP>>
 
     -- no voids can be vertically adjacent to other voids
-    <<LOOP CON_DIR (above, below)>>
-        IF <<CON_DIR>> IS NOT NULL THEN
-            RAISE EXCEPTION 'Container % with % cannot have other VOID containers <<CON_DIR>> it. Received %', NEW.id, c, <<CON_DIR>>;
-        END IF;
-    <<END LOOP>>
+    IF c ~ 'STEPPED_HEAD|RAISED_CURB' THEN
+        <<LOOP CON_DIR (above, below)>>
+            IF <<CON_DIR>> IS NOT NULL THEN
+                RAISE EXCEPTION 'Container % with % cannot have other VOID containers <<CON_DIR>> it. Received %', NEW.id, c, <<CON_DIR>>;
+            END IF;
+        <<END LOOP>>
+
+    ELSIF c ~ 'NOTCH' THEN
+        <<LOOP CON_DIR (left_of, right_of)>>
+            IF <<CON_DIR>> IS NOT NULL THEN
+                RAISE EXCEPTION 'Container % with % cannot have other VOID containers <<CON_DIR>> it. Received %', NEW.id, c, <<CON_DIR>>;
+            END IF;
+        <<END LOOP>>
 
     -- internal voids cannot be adjacent to any other voids altogether
-    IF c ~ 'INTERNAL' THEN
-        <<LOOP CON_DIR (left_of, right_of)>>
+    ELSIF c ~ 'INTERNAL' THEN
+        <<LOOP CON_DIR (above, below, left_of, right_of)>>
             IF <<CON_DIR>> IS NOT NULL THEN
                 RAISE EXCEPTION 'Container % with % cannot have other VOID containers <<CON_DIR>> it. Received %', NEW.id, c, <<CON_DIR>>;
             END IF;
