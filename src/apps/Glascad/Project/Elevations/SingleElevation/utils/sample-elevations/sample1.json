@@ -17,6 +17,7 @@
     "_elevationContainers": [
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzA3XQ==",
             "id": 707,
             "original": true,
@@ -29,6 +30,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzA4XQ==",
             "id": 708,
             "original": false,
@@ -41,6 +43,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzA5XQ==",
             "id": 709,
             "original": false,
@@ -53,6 +56,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzEwXQ==",
             "id": 710,
             "original": false,

@@ -4,13 +4,14 @@ import { transformProps } from '../../../../../../../../components';
 import { pixelsPerInch } from '../../contexts/ElevationTransformProvider';
 import { withSelectionContext } from '../../contexts/SelectionContext';
 import ContainerId from './ContainerId';
+import CONTENT_TYPES from '../../../../../../../../utils/objects/content_types';
 
 const Container = memo(function Container({
     container,
     container: {
         id,
         refId,
-        customRoughOpening,
+        contents,
         registerReactComponent,
     },
     scaledPlacement: {
@@ -32,7 +33,7 @@ const Container = memo(function Container({
             id={refId}
             data-cy={`container-${id}`}
             className={`Container ${
-                customRoughOpening ? 'custom-rough-opening' : ''
+                `${contents}`.toLowerCase().replace(/_/g, '-')
                 } ${
                 selected ? 'selected' : ''
                 } ${

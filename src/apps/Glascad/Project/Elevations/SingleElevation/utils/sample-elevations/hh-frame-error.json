@@ -17,6 +17,7 @@
     "_elevationContainers": [
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODE0XQ==",
             "id": 814,
             "original": true,
@@ -29,6 +30,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODE2XQ==",
             "id": 816,
             "original": false,
@@ -41,6 +43,7 @@
         },
         {
             "__typename": "UPDATED_CONTAINER",
+            "contents": "VOID_INTERNAL",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODE4XQ==",
             "id": 818,
             "original": false,
@@ -49,11 +52,11 @@
                     "width": 484.9999999999985,
                     "height": 100
                 }
-            },
-            "customRoughOpening": true
+            }
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODE5XQ==",
             "id": 819,
             "original": false,
@@ -66,6 +69,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODIwXQ==",
             "id": 820,
             "original": false,
@@ -78,6 +82,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODIyXQ==",
             "id": 822,
             "original": false,
@@ -90,6 +95,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODI0XQ==",
             "id": 824,
             "original": false,
@@ -102,6 +108,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODI2XQ==",
             "id": 826,
             "original": false,
@@ -114,6 +121,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODI5XQ==",
             "id": 829,
             "original": false,
@@ -126,6 +134,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODMwXQ==",
             "id": 830,
             "original": false,
@@ -138,6 +147,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODMyXQ==",
             "id": 832,
             "original": false,
@@ -150,6 +160,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODM0XQ==",
             "id": 834,
             "original": false,
@@ -162,6 +173,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODM2XQ==",
             "id": 836,
             "original": false,
@@ -174,6 +186,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODM5XQ==",
             "id": 839,
             "original": false,
@@ -186,6 +199,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODQwXQ==",
             "id": 840,
             "original": false,
@@ -198,6 +212,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODQyXQ==",
             "id": 842,
             "original": false,
@@ -210,6 +225,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODQ0XQ==",
             "id": 844,
             "original": false,
@@ -222,6 +238,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODQ2XQ==",
             "id": 846,
             "original": false,
@@ -234,6 +251,7 @@
         },
         {
             "id": -1,
+            "contents": "GLASS",
             "daylightOpening": {
                 "dimensions": {
                     "width": 484.9999999999985,

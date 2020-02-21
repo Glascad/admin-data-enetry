@@ -16,21 +16,18 @@ export const defaultContainerUpdate = {
             height: 0,
         }
     },
-    customRoughOpening: false,
 };
 
 export default {
-    elevationInput: {
-        id: 0,
-        name: "",
-        roughOpening: {
-            width: 0,
-            height: 0,
-        },
-        finishedFloorHeight: 0,
-        details: [],
-        containers: [],
-        detailIdsToDelete: [],
-        containerIdsToDelete: [],
+    id: 0,
+    name: "",
+    roughOpening: {
+        width: 0,
+        height: 0,
     },
+    finishedFloorHeight: 0,
+    details: [],
+    containers: [],
+    detailIdsToDelete: [],
+    containerIdsToDelete: [],
 };

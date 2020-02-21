@@ -1,5 +1,6 @@
 import { GET_RELATIVE_DIRECTIONS, Loggable, unique } from '../../../../../../../utils';
 import sortDetails from './sort-details';
+import CONTENT_TYPES from '../../../../../../../utils/objects/content_types';
 
 const matchedDetailsKey = 'matched_details<first>';
 const detailsByContainerKey = 'details_by_container<first>';
@@ -87,13 +88,13 @@ export default class RecursiveDetail extends Loggable {
             (
                 firstContainer
                 &&
-                !firstContainer.customRoughOpening
+                firstContainer.contents === CONTENT_TYPES.GLASS
             )
             ||
             (
                 secondContainer
                 &&
-                !secondContainer.customRoughOpening
+                secondContainer.contents === CONTENT_TYPES.GLASS
             )
         );
     }
@@ -108,11 +109,11 @@ export default class RecursiveDetail extends Loggable {
                     (
                         !this.firstContainer
                         ||
-                        this.firstContainer.customRoughOpening
+                        this.firstContainer.contents !== CONTENT_TYPES.GLASS
                         ||
                         !this.secondContainer
                         ||
-                        this.secondContainer.customRoughOpening
+                        this.secondContainer.contents !== CONTENT_TYPES.GLASS
                     ) ?
                         'JAMB'
                         :
@@ -121,14 +122,14 @@ export default class RecursiveDetail extends Loggable {
                     (
                         !this.firstContainer
                         ||
-                        this.firstContainer.customRoughOpening
+                        this.firstContainer.contents !== CONTENT_TYPES.GLASS
                     ) ?
                         'SILL'
                         :
                         (
                             !this.secondContainer
                             ||
-                            this.secondContainer.customRoughOpening
+                            this.secondContainer.contents !== CONTENT_TYPES.GLASS
                         ) ?
                             'HEAD'
                             :
@@ -272,11 +273,11 @@ export default class RecursiveDetail extends Loggable {
         return (
             !this.firstContainer
             ||
-            this.firstContainer.customRoughOpening
+            this.firstContainer.contents !== CONTENT_TYPES.GLASS
             ||
             !this.secondContainer
             ||
-            this.secondContainer.customRoughOpening
+            this.secondContainer.contents !== CONTENT_TYPES.GLASS
         );
     }
     get shouldRunThroughPerpendiculars() {

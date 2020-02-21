@@ -162,7 +162,7 @@ $horizontal-bubble-translation: $small * 2.5;
             position: absolute;
             background: transparentize($light-blue, 0.8);
 
-            &.custom-rough-opening {
+            &[class*="void"] {
                 // display: none;
                 // border: 2px solid $light-gray;
                 border: 2px solid white;

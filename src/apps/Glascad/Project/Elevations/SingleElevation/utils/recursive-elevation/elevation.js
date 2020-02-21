@@ -5,6 +5,7 @@ import RecursiveDimension from './dimension';
 import dimensionsOverlap from './dimensions-overlap';
 import RecursiveFrame from './frame';
 import sortDimensionTracks from './sort-dimension-tracks';
+import CONTENT_TYPES from '../../../../../../../utils/objects/content_types';
 
 const {
     UP,
@@ -133,7 +134,7 @@ export default class RecursiveElevation extends Loggable {
     get allFrames() {
         return this.__allFrames || (
             this.__allFrames = this.allDetails.reduce((all, detail) => (
-                !all.some(_frame => _frame.contains(detail))
+                !all.some(_frame => _frame.contains(detail)) && detail.exists
             ) ?
                 all.concat(new RecursiveFrame(detail.allMatchedDetails, this, detail))
                 :
@@ -184,7 +185,7 @@ export default class RecursiveElevation extends Loggable {
         return this.allContainers
             .reduce((dimensions, container) => {
 
-                if (container.customRoughOpening) return dimensions;
+                if (container.contents !== CONTENT_TYPES.GLASS) return dimensions;
                 else {
                     const prevDimension = dimensions.find(dimension => dimension.matchContainer(container));
 

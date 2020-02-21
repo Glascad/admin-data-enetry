@@ -18,6 +18,7 @@
     "_elevationContainers": [
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUxNV0=",
             "id": 1515,
             "original": true,
@@ -30,6 +31,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUxNl0=",
             "id": 1516,
             "original": false,
@@ -42,6 +44,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUxN10=",
             "id": 1517,
             "original": false,
@@ -54,6 +57,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUxOF0=",
             "id": 1518,
             "original": false,
@@ -66,6 +70,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUxOV0=",
             "id": 1519,
             "original": false,
@@ -78,6 +83,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUyMF0=",
             "id": 1520,
             "original": false,
@@ -90,6 +96,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0Ml0=",
             "id": 1542,
             "daylightOpening": {
@@ -101,6 +108,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0M10=",
             "id": 1543,
             "daylightOpening": {
@@ -112,6 +120,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0NF0=",
             "id": 1544,
             "daylightOpening": {
@@ -123,6 +132,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0NV0=",
             "id": 1545,
             "daylightOpening": {
@@ -134,6 +144,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0Nl0=",
             "id": 1546,
             "daylightOpening": {
@@ -145,6 +156,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0N10=",
             "id": 1547,
             "daylightOpening": {

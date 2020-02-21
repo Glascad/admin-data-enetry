@@ -1,6 +1,7 @@
 import RecursiveContainer from "./container";
 import RecursiveElevation from "./elevation";
 import { Loggable } from "../../../../../../../utils";
+import CONTENT_TYPES from "../../../../../../../utils/objects/content_types";
 
 const getValuesFromItem = item => {
     if (item instanceof RecursiveContainer) {
@@ -13,13 +14,13 @@ const getValuesFromItem = item => {
                 height,
                 width,
             },
-            customRoughOpening
+            contents,
         } = item;
         return {
             ids: [id],
             refIds: [refId],
             containers: [item],
-            isRoughOpening: customRoughOpening,
+            isRoughOpening: contents !== CONTENT_TYPES.GLASS,
             x,
             y,
             height,
@@ -113,7 +114,7 @@ export default class RecursiveDimension extends Loggable {
             height,
             width,
         },
-        customRoughOpening,
+        contents,
     }) => {
         const {
             vertical,
@@ -122,7 +123,7 @@ export default class RecursiveDimension extends Loggable {
             isRoughOpening,
         } = this;
 
-        return (!!customRoughOpening === !!isRoughOpening) && (
+        return (!!(contents !== CONTENT_TYPES.GLASS) === !!isRoughOpening) && (
             vertical ? (
                 y === offset
                 &&
