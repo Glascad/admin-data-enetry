@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { Client } = require('pg');
 const generateSeed = require('./seed/generate-seed');
 const { asyncPipe, asyncTap } = require('./utils/pipe');
@@ -6,8 +5,8 @@ const { asyncPipe, asyncTap } = require('./utils/pipe');
 const {
     env: {
         POSTGRES_USER,
-        POSTGRES_DB,
         POSTGRES_PASSWORD,
+        POSTGRES_DB,
     },
 } = process;
 

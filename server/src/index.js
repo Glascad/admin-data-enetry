@@ -6,14 +6,14 @@ const chalk = require('chalk');
 const {
     env: {
         PORT,
-        PG_USER,
-        PG_PASSWORD,
-        PG_DB,
+        POSTGRES_USER,
+        POSTGRES_PASSWORD,
+        POSTGRES_DB,
         JWT_SECRET = 'sldkfjsdlkfjsldkjflksdjlfksjdlkjsdlkjsdlfksdjflk',
     },
 } = process;
 
-const CONNECTION_STRING = `postgres://${PG_USER}:${PG_PASSWORD}@db/${PG_DB}`;
+const CONNECTION_STRING = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}`;
 
 console.log({ CONNECTION_STRING, JWT_SECRET, PORT });
 
