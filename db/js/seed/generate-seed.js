@@ -1,42 +1,33 @@
 const createSQLImporter = require('../build/require-sql');
 
-module.exports = async function generateSeed() {
+module.exports = async run => {
 
-    const require = createSQLImporter(__dirname);
+    const require = createSQLImporter(__dirname, run);
 
-    return `
+    console.log('----- PG WATCH -----')
+    await require('../../sql/postgraphile_watch.sql');
 
-DO $seed$ BEGIN
+    console.log('----- SCHEMAS -----');
+    await require('../../sql/seed/schemas/schemas.sql');
 
------ SCHEMAS -----
-
-${await require('../../sql/seed/schemas/schemas.sql')}
-
-
------ TYPES -----
-
-${await require(
+    console.log('----- TYPES -----');
+    await require(
         '../../sql/seed/schemas/gc_controlled/types/util_types.sql',
         '../../sql/seed/schemas/gc_controlled/types/auth_types.sql',
         '../../sql/seed/schemas/gc_controlled/types/geometric_types.sql',
         '../../sql/seed/schemas/gc_controlled/types/architecture_types.sql',
         '../../sql/seed/schemas/gc_public/types.sql',
         '../../sql/seed/schemas/gc_data/types.sql',
-    )}
+    );
 
+    console.log('----- OPERATOR FUNCTIONS -----');
+    await require('../../sql/seed/schemas/gc_utils/operators/ltree=ltree.sql');
 
------ OPERATOR FUNCTIONS -----
+    console.log('----- CAST FUNCTIONS -----');
+    await require('../../sql/seed/schemas/gc_utils/casts/rectangle_to_rectangle_quad.sql');
 
-${await require('../../sql/seed/schemas/gc_utils/operators/ltree=ltree.sql')}
-
-
------ CAST FUNCTIONS -----
-${await require('../../sql/seed/schemas/gc_utils/casts/rectangle_to_rectangle_quad.sql')}
-
-
------ UTILITY FUNCTIONS -----
-
-${await require(
+    console.log('----- UTILITY FUNCTIONS -----');
+    await require(
         '../../sql/seed/schemas/gc_utils/functions/either_or.sql',
         '../../sql/seed/schemas/gc_utils/functions/sum_bools.sql',
         '../../sql/seed/schemas/gc_utils/functions/get_real_id.sql',
@@ -55,12 +46,10 @@ ${await require(
         '../../sql/seed/schemas/gc_data/functions/utils/get_dt~ct_from_path.sql',
         '../../sql/seed/schemas/gc_data/functions/utils/get_subpath.sql',
         '../../sql/seed/schemas/gc_data/functions/utils/prepend_system_id.sql',
-    )}
+    );
 
-
------ TABLES -----
-
-${await require(
+    console.log('----- TABLES -----');
+    await require(
         '../../sql/seed/schemas/gc_controlled/tables.sql',
         '../../sql/seed/schemas/gc_data/tables/d,dc_types.sql',
         '../../sql/seed/schemas/gc_data/tables/manufacturer.sql',
@@ -69,12 +58,10 @@ ${await require(
         '../../sql/seed/schemas/gc_protected/tables/system.sql',
         '../../sql/seed/schemas/gc_protected/tables/system_set.sql',
         '../../sql/seed/schemas/gc_protected/tables/elevation.sql',
-    )}
+    );
 
-
------ TRIGGERS -----
-
-${await require(
+    console.log('----- TRIGGERS -----');
+    await require(
         '../../sql/seed/schemas/gc_protected/triggers/g_system_paths.sql',
         '../../sql/seed/schemas/gc_protected/triggers/g_system_set_types.sql',
         '../../sql/seed/schemas/gc_protected/triggers/g_system_set_parent_paths.sql',
@@ -90,17 +77,13 @@ ${await require(
         '../../sql/seed/schemas/gc_protected/triggers/ch_container_detail_has_frame_or_no_sightline.sql',
         '../../sql/seed/schemas/gc_protected/triggers/ch_container_detail_deletion.sql',
         '../../sql/seed/schemas/gc_protected/triggers/ch_elevation_frame_placement.sql',
-    )}
+    );
 
+    console.log('----- INVOKER ROLE -----');
+    await require('../../sql/seed/security/invoker.sql');
 
------ INVOKER ROLE -----
-
-${await require('../../sql/seed/security/invoker.sql')}
-
-
------ FUNCTIONS -----
-
-${await require(
+    console.log('----- FUNCTIONS -----');
+    await require(
         '../../sql/seed/schemas/gc_private/functions/c_a_user.sql',
         '../../sql/seed/schemas/gc_private/functions/u_password.sql',
         '../../sql/seed/schemas/gc_protected/functions/elevation/c~u_elevation_container.sql',
@@ -128,51 +111,30 @@ ${await require(
         '../../sql/seed/schemas/gc_public/functions/queries/get_current_user_id.sql',
         '../../sql/seed/schemas/gc_public/functions/queries/get_current_user.sql',
         '../../sql/seed/schemas/gc_public/functions/mutations/authenticate.sql',
-    )}
+    );
 
+    console.log('----- COMPUTED COLUMNS -----');
+    await require('../../sql/seed/schemas/gc_protected/computed_columns/configuration_parts_path.sql');
 
------ COMPUTED COLUMNS -----
+    console.log('----- INSERTIONS -----');
+    await require('../../sql/seed/schemas/gc_controlled/values.sql');
 
-${await require('../../sql/seed/schemas/gc_protected/computed_columns/configuration_parts_path.sql')}
+    console.log('----- ROLES -----');
+    await require('../../sql/seed/security/roles.sql');
 
+    console.log('----- PRIVILEGES -----');
+    await require('../../sql/seed/security/privileges.sql');
 
------ INSERTIONS -----
-
-${await require('../../sql/seed/schemas/gc_controlled/values.sql')}
-
-
------ ROLES -----
-
-${await require('../../sql/seed/security/roles.sql')}
-
-
------ PRIVILEGES -----
-
-${await require('../../sql/seed/security/privileges.sql')}
-
-
------ SEED DATA -----
-
-${await require(
+    console.log('----- SEED DATA -----');
+    await require(
         '../../sql/seed/seed_data/users.sql',
         '../../sql/seed/seed_data/seed_data.sql',
         './data',
         '../../sql/seed/seed_data/system.sql',
         '../../sql/seed/seed_data/system_set.sql',
         '../../sql/seed/seed_data/elevation.sql',
-    )}
+    );
 
-
------ POLICIES -----
-
-${await require('../../sql/seed/security/policies.sql')}
-
-
--- for preventing updates until they are ready
--- RAISE EXCEPTION '========== SUCCESS! ==========';
-
-END $seed$
-
-`;
-
+    console.log('----- POLICIES -----');
+    await require('../../sql/seed/security/policies.sql');
 }

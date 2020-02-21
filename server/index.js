@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const { postgraphile } = require('postgraphile');
@@ -7,8 +8,8 @@ const {
     env: {
         PORT = 3001,
         JWT_SECRET,
+        CONNECTION_STRING,
     },
-    CONNECTION_STRING = 'postgres://user:pass@localhost:5432/postgres', // = 'postgres://user:pass@172.17.0.2:5432/postgres',
 } = process;
 
 const APP = express();
@@ -31,11 +32,12 @@ APP.use(postgraphile(
         graphiql: true,
         jwtPgTypeIdentifier: "gc_controlled.jwt",
         jwtSecret: JWT_SECRET,
-        exportGqlSchemaPath: `${__dirname}/../compiled/gql-schema.gql`,
-        exportJsonSchemaPath: `${__dirname}/../compiled/gql-schema.json`,
+        // exportGqlSchemaPath: `${__dirname}/../compiled/gql-schema.gql`,
+        // exportJsonSchemaPath: `${__dirname}/../compiled/gql-schema.json`,
         pgDefaultRole: 'unauthorized',
         // pgDefaultRole: 'glascad',
-        // retryOnInitFail: true,
+        retryOnInitFail: true,
+        watchPg: true,
     },
 ));
 

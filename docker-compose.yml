@@ -1,54 +1,39 @@
 version: '3'
 
 services:
-    # client:
-    #     container_name: client
-    #     build: ./client
-    #     volumes:
-    #         - ./client:/client
-    #     ports:
-    #         - "3000:3000"
-    #     environment:
-    #         REACT_APP_BASE_URL: http://127.0.0.1:3001
-
-    # server:
-    #     container_name: server
-    #     build: ./server
-    #     volumes:
-    #         - ./server:/server
-    #     ports:
-    #         - "3001:3001"
-    #     links:
-    #         - db:db
-    #     depends_on:
-    #         - db
-    #     environment:
-    #         PORT: 3001
-    #         CONNECTION_STRING: postgres://user:pass@db:5432/postgres
-    
-    node-db:
-        container_name: node-db
-        build: ./node-db
+    client:
+        container_name: client
+        build: ./client
         volumes:
-            - db-seed:/db-seed
-            - ./node-db:/node-db
+            - ./client:/client
+        ports:
+            - "3000:3000"
+        environment:
+            REACT_APP_BASE_URL: http://127.0.0.1:3001
 
+    server:
+        container_name: server
+        build: ./server
+        volumes:
+            - ./server:/server
+        ports:
+            - "3001:3001"
+        links:
+            - db:db
+        depends_on:
+            - db
+        environment:
+            PORT: 3001
+            CONNECTION_STRING: "postgres://user:pass@db/postgres"
+    
     db:
         container_name: db
-        image: postgres
-        depends_on:
-            - node-db
-        # build: ./db
-        # volumes:
-        #     - ./db:/db
-        ports:
-            - "5432:5432"
+        build: ./db
+        volumes:
+            - ./db:/db
         environment:
             POSTGRES_USER: user
             POSTGRES_PASSWORD: pass
-            POSGRES_DB: postgres
-        volumes:
-            - db-seed:/docker-entrypoint-initdb.d/
-
-volumes:
-    db-seed:
+            POSTGRES_DB: postgres
+        ports:
+            - "5432:5432"
