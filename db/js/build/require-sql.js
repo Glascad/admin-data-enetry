@@ -1,5 +1,5 @@
-const pfs = require('../fs/promise-fs');
-const { pipe, asyncPipe, asyncCompose, asyncMap, asyncTap, apply, tap } = require('../fs/pipe');
+const pfs = require('../utils/promise-fs');
+const { pipe, asyncPipe, asyncCompose, asyncMap, asyncTap, apply, tap } = require('../utils/pipe');
 const removeComments = require('./SQL_GEN/comments');
 const duplicateSQL = require('./SQL_GEN/duplicate');
 const removeEmptyLines = require('./SQL_GEN/empty-lines');

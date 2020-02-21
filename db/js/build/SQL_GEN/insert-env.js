@@ -1,4 +1,4 @@
-const log = require('../../fs/log');
+const log = require('../../utils/log');
 
 const insertEnv = (path, contents) => contents.replace(/<<\s*(\w*)\s*>>/g, (match, ENV_VAR) => {
     const value = process.env[ENV_VAR];

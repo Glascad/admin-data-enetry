@@ -1,4 +1,4 @@
-const log = require('../../fs/log');
+const log = require('../../utils/log');
 const { ONLY } = require('./only');
 
 const partialLoop = /<<\s*LOOP/ig;

@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const {
     env: {
         PORT = 3001,
-        JWT_SECRET,
+        JWT_SECRET = 'sldkfjsdlkfjsldkjflksdjlfksjdlkjsdlkjsdlfksdjflk',
         CONNECTION_STRING,
     },
 } = process;

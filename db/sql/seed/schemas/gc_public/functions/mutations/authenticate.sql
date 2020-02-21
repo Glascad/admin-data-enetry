@@ -24,7 +24,7 @@ BEGIN
         RETURN ROW(
             LOWER(authenticatee.role::TEXT),
             -- NULL,
-            EXTRACT(EPOCH FROM NOW() + INTERVAL '<<INTERVAL>>'),
+            EXTRACT(EPOCH FROM NOW() + INTERVAL <<JWT_DURATION>>),
             authenticatee.id
         )::gc_controlled.JWT;
     ELSE

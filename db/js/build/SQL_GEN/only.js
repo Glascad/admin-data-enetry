@@ -1,4 +1,4 @@
-const log = require('../../fs/log');
+const log = require('../../utils/log');
 
 const entireOnly = /([\s\S]*)<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]*?)<<\s*END\s*ONLY\s*>>([\s\S]*)/ig;
 

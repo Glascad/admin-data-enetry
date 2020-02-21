@@ -5,7 +5,8 @@ services:
         container_name: client
         build: ./client
         volumes:
-            - ./client:/client
+            - ./client/src:/client/src
+            - ./client/public:/client/public
         ports:
             - "3000:3000"
         environment:
@@ -15,13 +16,14 @@ services:
         container_name: server
         build: ./server
         volumes:
-            - ./server:/server
+            - ./server/src:/server/src
         ports:
             - "3001:3001"
-        links:
-            - db:db
-        depends_on:
-            - db
+        # links:
+        #     - db:db
+        # depends_on:
+        #     - db
+        env_file: ./server/.env
         environment:
             PORT: 3001
             CONNECTION_STRING: "postgres://user:pass@db/postgres"
@@ -30,7 +32,9 @@ services:
         container_name: db
         build: ./db
         volumes:
-            - ./db:/db
+            - ./db/js:/db/js
+            - ./db/sql:/db/sql
+        env_file: ./db/.env
         environment:
             POSTGRES_USER: user
             POSTGRES_PASSWORD: pass
