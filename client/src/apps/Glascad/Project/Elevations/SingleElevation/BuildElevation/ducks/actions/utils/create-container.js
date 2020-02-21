@@ -1,4 +1,5 @@
 import { getFakeContainerId } from './get-fake-id';
+import CONTENT_TYPES from '../../../../../../../../../utils/objects/content_types';
 
 export default function createContainer({
     elevationInput,
@@ -7,6 +8,7 @@ export default function createContainer({
     },
 }, {
     daylightOpening,
+    contents = CONTENT_TYPES.GLASS,
 }) {
 
     return {
@@ -15,6 +17,7 @@ export default function createContainer({
             containers: containers.concat({
                 id: getFakeContainerId(),
                 daylightOpening,
+                contents,
             }),
         },
     };

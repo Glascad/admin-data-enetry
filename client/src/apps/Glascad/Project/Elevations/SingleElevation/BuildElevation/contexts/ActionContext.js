@@ -10,6 +10,8 @@ import * as ACTIONS from '../ducks/actions';
 
 import RecursiveContainer from '../../utils/recursive-elevation/container';
 import RecursiveFrame from '../../utils/recursive-elevation/frame';
+import CONTENT_TYPES from '../../../../../../../utils/objects/content_types';
+
 
 export const ActionContext = createContext();
 
@@ -29,7 +31,9 @@ class ActionProvider extends PureComponent {
         const {
             props: {
                 selection: {
+                    items,
                     items: {
+                        0: selectedItem,
                         0: {
                             class: SelectedClass,
                         } = {},
@@ -39,7 +43,7 @@ class ActionProvider extends PureComponent {
         } = this;
 
         if (key === 'Delete' || key === 'Backspace') {
-            if (SelectedClass === RecursiveContainer) this.deleteContainers();
+            if (SelectedClass === RecursiveContainer && items.every(container => container.canDelete)) this.deleteContainers();
             else if (SelectedClass === RecursiveFrame) this.deleteFrames();
         }
     }
@@ -61,14 +65,18 @@ class ActionProvider extends PureComponent {
             const { containerToMerge, directionToMerge } = allContainers
                 .reduce(({ containerToMerge, directionToMerge }, container) => {
                     if (containerToMerge) return { containerToMerge, directionToMerge };
-                    else if (container.customRoughOpening) {
+                    else if (container.contents !== CONTENT_TYPES.GLASS) {
 
-                        const direction = [DIRECTIONS.UP, DIRECTIONS.DOWN]
+
+                        const direction = [DIRECTIONS.UP, DIRECTIONS.DOWN, DIRECTIONS.LEFT, DIRECTIONS.RIGHT]
                             .find(direction => (
                                 container.canMergeByDirection(...direction, true)
                                 &&
-                                container.getImmediateContainersByDirection(...direction)[0].customRoughOpening
+                                container.getImmediateContainersByDirection(...direction)[0].contents !== CONTENT_TYPES.GLASS
                             ));
+
+
+                        console.log({ direction })
 
                         if (direction) {
                             return {

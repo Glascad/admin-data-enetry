@@ -6,6 +6,9 @@ function mergeElevationInput(
     rawElevation = {},
     elevationInput = {},
 ) {
+
+    console.log(arguments);
+
     const {
         roughOpening: {
             width,
@@ -27,6 +30,8 @@ function mergeElevationInput(
     const [containersToUpdate, containersToAdd] = _.partition(containers, ({ id }) => id > 0);
     const [detailsToUpdate, detailsToAdd] = _.partition(details, ({ id }) => id > 0);
 
+    // console.log({ containersToUpdate, containersToAdd, containerIdsToDelete })
+
     return {
         ...rawElevation,
         _elevationContainers: _elevationContainers
@@ -40,6 +45,10 @@ function mergeElevationInput(
                         daylightOpening: {
                             ...container.daylightOpening,
                             ...update.daylightOpening,
+                            dimensions: {
+                                ...container.daylightOpening.dimensions,
+                                ...update.daylightOpening ? update.daylightOpening.dimensions : {},
+                            }
                         },
                         __typename: "UPDATED_CONTAINER",
                     }
@@ -73,7 +82,7 @@ export default function ({
     _system,
 } = {}) {
 
-    // console.log("MERGING INPUT");
+    // console.log(arguments);
 
     const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
 

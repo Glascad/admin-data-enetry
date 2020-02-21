@@ -17,6 +17,7 @@
     "_elevationContainers": [
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzI5XQ==",
             "id": 729,
             "original": true,
@@ -29,6 +30,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzMyXQ==",
             "id": 732,
             "original": false,
@@ -41,6 +43,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzMzXQ==",
             "id": 733,
             "original": false,
@@ -53,6 +56,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzM0XQ==",
             "id": 734,
             "original": false,
@@ -65,6 +69,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzM2XQ==",
             "id": 736,
             "original": false,
@@ -77,6 +82,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzM3XQ==",
             "id": 737,
             "original": false,
@@ -89,6 +95,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzM4XQ==",
             "id": 738,
             "original": false,
@@ -101,6 +108,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzM5XQ==",
             "id": 739,
             "original": false,
@@ -113,6 +121,7 @@
         },
         {
             "__typename": "ElevationContainer",
+            "contents": "GLASS",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzQwXQ==",
             "id": 740,
             "original": false,

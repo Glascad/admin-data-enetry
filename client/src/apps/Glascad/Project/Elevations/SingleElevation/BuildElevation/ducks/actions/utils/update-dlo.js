@@ -22,7 +22,18 @@ export default function updateDLO({
     vertical,
     distance,
 }) {
+
+
     const previouslyUpdatedContainer = containers.find(({ id }) => id === containerId);
+
+    const {
+        daylightOpening: {
+            dimensions: {
+                width: updatedWidth,
+                height: updatedHeight,
+            } = {}
+        } = {}
+    } = previouslyUpdatedContainer || {};
 
     const updatedContainer = {
         ...rawContainer,
@@ -30,13 +41,13 @@ export default function updateDLO({
         daylightOpening: {
             dimensions: {
                 width: vertical ?
-                    width
+                    (updatedWidth || width)
                     :
-                    width - distance,
+                    (updatedWidth || width) - distance,
                 height: vertical ?
-                    height - distance
+                    (updatedHeight || height) - distance
                     :
-                    height,
+                    (updatedHeight || height),
             }
         },
     };

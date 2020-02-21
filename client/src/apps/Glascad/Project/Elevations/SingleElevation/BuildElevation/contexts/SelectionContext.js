@@ -4,6 +4,7 @@ import RecursiveElevation from '../../utils/recursive-elevation/elevation';
 
 import { unique, getDirectionFromArrowKey } from '../../../../../../../utils';
 import { withContext } from '../../../../../../../components';
+import CONTENT_TYPES from '../../../../../../../utils/objects/content_types';
 
 export const SelectionContext = createContext();
 
@@ -111,7 +112,7 @@ export default class SelectionProvider extends PureComponent {
                     if (
                         nextContainer
                         &&
-                        !nextContainer.customRoughOpening
+                        nextContainer.contents === CONTENT_TYPES.GLASS
                     ) {
                         if (!shiftKey) cancelSelection();
                         selectItem(nextContainer, true);
@@ -140,8 +141,6 @@ export default class SelectionProvider extends PureComponent {
     selectItem = (item, doNotUnselect = false) => {
         if (
             item
-            &&
-            !item.customRoughOpening
             &&
             !this.spaceKey
             &&
@@ -181,8 +180,6 @@ export default class SelectionProvider extends PureComponent {
                         firstItem.class === item.class
                         &&
                         firstItem.vertical === item.vertical
-                        &&
-                        !item.customRoughOpening
                     ) ?
                         selectedItems.includes(item) ?
                             doNotUnselect ?

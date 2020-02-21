@@ -42,7 +42,7 @@ export default function ALTER_ROUGH_OPENING({
 
     const _frame = container.getFrameByDirection(true, first);
 
-    // delete container (set customRoughOpening to true) if step distance is equal to container.dlo.height + container.topFrame.sightline
+    // delete container -set contents- if step distance is equal to container.dlo.height + container.topFrame.sightline
     if (height + _frame.sightline <= Math.abs(distance)) {
         return DELETE_CONTAINER(arguments[0], { container });
     } else {
@@ -54,7 +54,7 @@ export default function ALTER_ROUGH_OPENING({
 
         if (!container.canAddIntermediateByVerticalAndDistance(false, distanceToAddFrame)) return arguments[0];
 
-        // otherwise add frame, and then set customRoughOpening on new container to true
+        // otherwise add frame, and then set contents on new container to true
         else {
             const {
                 elevationInput: elevationWithAddedFrame,
@@ -77,7 +77,7 @@ export default function ALTER_ROUGH_OPENING({
 
                 const deletedContainer = {
                     ...previouslyUpdatedContainer,
-                    customRoughOpening: true,
+                    contents: container.getNewContentsType(),
                 };
 
                 return {
@@ -96,7 +96,7 @@ export default function ALTER_ROUGH_OPENING({
                         ...elevationWithAddedFrame,
                         containers: replace(containers, length - 1, {
                             ...containers[length - 1],
-                            customRoughOpening: true,
+                            contents: container.getNewContentsType(),
                         }),
                     },
                 };
