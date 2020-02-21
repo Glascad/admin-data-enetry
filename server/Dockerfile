@@ -1,4 +1,4 @@
-FROM node:12.14.1-alpine
+FROM node:12.14-alpine
 WORKDIR /server
 COPY package*.json ./
 RUN npm i

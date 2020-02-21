@@ -1,4 +1,3 @@
-require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const { postgraphile } = require('postgraphile');
@@ -6,17 +5,21 @@ const chalk = require('chalk');
 
 const {
     env: {
-        PORT = 3001,
+        PORT,
+        PG_USER,
+        PG_PASSWORD,
+        PG_DB,
         JWT_SECRET = 'sldkfjsdlkfjsldkjflksdjlfksjdlkjsdlkjsdlfksdjflk',
-        CONNECTION_STRING,
     },
 } = process;
+
+const CONNECTION_STRING = `postgres://${PG_USER}:${PG_PASSWORD}@db/${PG_DB}`;
+
+console.log({ CONNECTION_STRING, JWT_SECRET, PORT });
 
 const APP = express();
 
 APP.use(cors());
-
-console.log({ CONNECTION_STRING, JWT_SECRET, PORT });
 
 APP.use(postgraphile(
     CONNECTION_STRING,
